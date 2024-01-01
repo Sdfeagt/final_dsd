@@ -19,6 +19,9 @@ model Trip {
   hotelId      String
   hotel        Hotel         @relation(fields: [hotelId], references: [id])
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@index([hotelId])
 }
 
@@ -31,6 +34,9 @@ model Participant {
   trip_end   DateTime
   trip       Trip     @relation(fields: [tripId], references: [id])
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@index([tripId])
 }
 
@@ -39,12 +45,18 @@ model Hotel {
   name        String
   preferences HotelPreference[]
   trips       Trip[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model AvailablePreference {
   id     String            @id @default(uuid())
   name   String
   hotels HotelPreference[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model HotelPreference {
@@ -53,6 +65,9 @@ model HotelPreference {
 
   hotel      Hotel               @relation(fields: [hotelId], references: [id])
   preference AvailablePreference @relation(fields: [preferenceId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@id([hotelId, preferenceId])
   @@index([hotelId])
