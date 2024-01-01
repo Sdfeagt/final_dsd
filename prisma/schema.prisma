@@ -1,0 +1,42 @@
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Trip {
+  id           String        @id @default(uuid())
+  name         String
+  ownerId      String // assuming ownerId is a string
+  participants Participant[]
+  destination  String
+}
+
+model Participant {
+  id        String  @id @default(uuid())
+  userId    String
+  tripId    String
+  confirmed Boolean
+  trip      Trip    @relation(fields: [tripId], references: [id])
+
+  @@index([tripId])
+}
+
+model Hotel {
+  id          String       @id @default(uuid())
+  name        String
+  location    String
+  cord_X      Float
+  cord_Y      Float
+  preferences Preference[] @relation("HotelPreferences")
+}
+
+model Preference {
+  id     String  @id @default(uuid())
+  name   String
+  hotels Hotel[] @relation("HotelPreferences")
+}
