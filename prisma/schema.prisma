@@ -11,32 +11,50 @@ generator client {
 model Trip {
   id           String        @id @default(uuid())
   name         String
-  ownerId      String // assuming ownerId is a string
+  ownerId      String
   participants Participant[]
   destination  String
+  trip_start   DateTime
+  trip_end     DateTime
+  hotelId      String // Adding this field
+  hotel        Hotel         @relation(fields: [hotelId], references: [id])
+
+  @@index([hotelId])
 }
 
 model Participant {
-  id        String  @id @default(uuid())
-  userId    String
-  tripId    String
-  confirmed Boolean
-  trip      Trip    @relation(fields: [tripId], references: [id])
+  id         String   @id @default(uuid())
+  userId     String
+  tripId     String
+  confirmed  Boolean
+  trip_start DateTime
+  trip_end   DateTime
+  trip       Trip     @relation(fields: [tripId], references: [id])
 
   @@index([tripId])
 }
 
 model Hotel {
-  id          String       @id @default(uuid())
+  id          String            @id @default(uuid())
   name        String
-  location    String
-  cord_X      Float
-  cord_Y      Float
-  preferences Preference[] @relation("HotelPreferences")
+  preferences HotelPreference[]
+  trips       Trip[]
 }
 
-model Preference {
-  id     String  @id @default(uuid())
+model AvailablePreference {
+  id     String            @id @default(uuid())
   name   String
-  hotels Hotel[] @relation("HotelPreferences")
+  hotels HotelPreference[]
+}
+
+model HotelPreference {
+  hotelId      String
+  preferenceId String
+
+  hotel      Hotel               @relation(fields: [hotelId], references: [id])
+  preference AvailablePreference @relation(fields: [preferenceId], references: [id])
+
+  @@id([hotelId, preferenceId])
+  @@index([hotelId])
+  @@index([preferenceId])
 }
