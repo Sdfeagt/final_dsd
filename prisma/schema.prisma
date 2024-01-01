@@ -16,7 +16,7 @@ model Trip {
   destination  String
   trip_start   DateTime
   trip_end     DateTime
-  hotelId      String // Adding this field
+  hotelId      String
   hotel        Hotel         @relation(fields: [hotelId], references: [id])
 
   @@index([hotelId])
