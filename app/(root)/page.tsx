@@ -1,10 +1,9 @@
-import { Button } from "@/components/ui/button"
-import { UserButton } from "@clerk/nextjs";
+import MainNav from "@/components/main_navbar";
 
 export default function Home() {
     return (
-        <div>
-            <UserButton afterSignOutUrl="/" />
+        <div className="bg-black">
+            <MainNav />
         </div>
     )
 }
