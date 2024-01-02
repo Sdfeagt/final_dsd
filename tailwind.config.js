@@ -51,6 +51,8 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        figmaGreen: "#24B24C",
+        figmaLightGreen: "#40bc5c",
       },
       borderRadius: {
         lg: "var(--radius)",

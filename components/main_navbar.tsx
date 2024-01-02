@@ -17,7 +17,7 @@ const MainNav = () => {
     return (
       <div className="flex items-center justify-between p-2 bg-primary text-white rounded-2xl">
         <div className='flex items-center space-x-5'>
-          <Image src={Menu} alt="menu" className="w-10 h-10 flex-shrink-0" />
+          <Image src={Menu} alt="menu" className="w-8 h-8 flex-shrink-0" />
 
           <div className="flex items-center space-x-2">
             <UserButton afterSignOutUrl='/' />
@@ -28,7 +28,7 @@ const MainNav = () => {
           </div>
         </div>
 
-        <Image src={Bell} alt="bell" className="w-10 h-10 flex-shrink-0" />
+        <Image src={Bell} alt="bell" className="w-8 h-8 flex-shrink-0" />
       </div>
 
 
