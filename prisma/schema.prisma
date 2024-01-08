@@ -41,13 +41,17 @@ model Participant {
 }
 
 model Hotel {
-  id          String            @id @default(uuid())
-  name        String
-  preferences HotelPreference[]
-  trips       Trip[]
+  id            String            @id @default(uuid())
+  name          String
+  preferences   HotelPreference[]
+  trips         Trip[]
+  destinationId String
+  destination   Destination       @relation(fields: [destinationId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([destinationId])
 }
 
 model AvailablePreference {
@@ -72,4 +76,10 @@ model HotelPreference {
   @@id([hotelId, preferenceId])
   @@index([hotelId])
   @@index([preferenceId])
+}
+
+model Destination {
+  id     String  @id @default(uuid())
+  name   String
+  hotels Hotel[]
 }
