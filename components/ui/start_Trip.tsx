@@ -1,5 +1,5 @@
 "use client"
-import { MapPin, Search, Banknote, Settings2 } from "lucide-react";
+import { Globe2, Search } from "lucide-react";
 
 import * as z from "zod"
 
@@ -41,7 +41,7 @@ const StartTrip = () => {
             router.push(`/create/${data.tripInfo}`)
         }
         else {
-            router.push('/create/location')
+            router.push('/create/europe')
         }
     }
 
@@ -52,12 +52,12 @@ const StartTrip = () => {
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex justify-center absolute bottom-0 w-full mb-8">
                 <div className="py-4 bg-figmaGreen rounded-full flex flex-col justify-between items-center relative">
-                    <p className="absolute top-1 left-50 text-sm text-gray-300">Search in...</p>
+                    <p className="absolute top-2 left-50 text-sm text-gray-300">Search in...</p>
                     <div className="flex">
                         <div className="m-2 flex flex-col items-center">
                             <FormField control={form.control} name="tripInfo" render={({ field }) => (
                                 <FormItem>
-                                    <Select defaultValue="location" onValueChange={field.onChange} >
+                                    <Select defaultValue="europe" onValueChange={field.onChange} >
                                         <FormControl>
                                             <SelectTrigger className="w-[180px] bg-figmaGreen border-figmaGreen">
                                                 <SelectValue placeholder="Explore here!" />
@@ -65,28 +65,28 @@ const StartTrip = () => {
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup className="bg-figmaGreen border-figmaGreen" >
-                                                <SelectItem value="location">
+                                                <SelectItem value="europe">
                                                     <div className="flex items-center justify-between">
-                                                        <div className="bg-figmaLightGreen rounded-full p-1 mr-4 flex items-center">
-                                                            <MapPin color="white" />
+                                                        <div className="bg-figmaLightGreen rounded-full p-2 mr-4 flex items-center">
+                                                            <Globe2 color="white" />
                                                         </div>
-                                                        Location
+                                                        Europe
                                                     </div>
                                                 </SelectItem>
-                                                <SelectItem value="budget">
+                                                <SelectItem value="north america">
                                                     <div className="flex items-center justify-between">
-                                                        <div className="bg-figmaLightGreen rounded-full p-1 mr-4 flex items-center">
-                                                            <Banknote color="white" />
+                                                        <div className="bg-figmaLightGreen rounded-full p-2 mr-4 flex items-center">
+                                                            <Globe2 color="white" />
                                                         </div>
-                                                        Budget
+                                                        North America
                                                     </div>
                                                 </SelectItem>
-                                                <SelectItem value="preferences">
+                                                <SelectItem value="asia">
                                                     <div className="flex items-center justify-between">
-                                                        <div className="bg-figmaLightGreen rounded-full p-1 mr-4 flex items-center">
-                                                            <Settings2 color="white" />
+                                                        <div className="bg-figmaLightGreen rounded-full p-2 mr-4 flex items-center">
+                                                            <Globe2 color="white" />
                                                         </div>
-                                                        Preferences
+                                                        Asia
                                                     </div>
                                                 </SelectItem>
                                             </SelectGroup>

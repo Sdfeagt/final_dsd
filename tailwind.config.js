@@ -53,7 +53,8 @@ module.exports = {
         },
         figmaGreen: "#24B24C",
         figmaLightGreen: "#40bc5c",
-        figmaDark: "#202229"
+        figmaDark: "#202229",
+        figmaLightDark: "#383c3c"
       },
       borderRadius: {
         lg: "var(--radius)",
