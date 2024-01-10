@@ -82,7 +82,7 @@ const StartTrip = () => {
                                                         Europe
                                                     </div>
                                                 </SelectItem>
-                                                <SelectItem value="North america">
+                                                <SelectItem value="NorthAmerica">
                                                     <div className="flex items-center justify-between">
                                                         <div className="bg-figmaLightGreen rounded-full p-2 mr-4 flex items-center">
                                                             <Globe2 color="white" />

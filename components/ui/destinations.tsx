@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -34,6 +34,14 @@ const FormSchema = z.object({
 
 const Destinations: React.FC<DestinationsProps> = ({ destinations, location }) => {
     const [filtered, setFiltered] = useState(destinations)
+    const [correctedLocation, setCorrectedLocation] = useState(location)
+
+    useEffect(() => {
+        if (location == "NorthAmerica") {
+            setCorrectedLocation("North America")
+        }
+
+    }, [location])
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
@@ -52,7 +60,6 @@ const Destinations: React.FC<DestinationsProps> = ({ destinations, location }) =
             setFiltered(destinations.filter((dest) => dest.name.toLowerCase().includes(data.dest.toLowerCase())))
         }
     }
-
     return (
         <div>
             <div className='text-lg flex justify-center my-6'>Where are you travelling to?
@@ -78,7 +85,7 @@ const Destinations: React.FC<DestinationsProps> = ({ destinations, location }) =
                     </Button>
                 </form>
             </Form>
-            <div className='text-sm text-gray-400 mt-14 mb-4'>Popular destinations in {location}
+            <div className='text-sm text-gray-400 mt-14 mb-4'>Popular destinations in {correctedLocation}
             </div>
             <div className='inline-grid grid-cols-2 gap-4'>
                 {filtered.length > 0 ? (
@@ -87,7 +94,7 @@ const Destinations: React.FC<DestinationsProps> = ({ destinations, location }) =
                             <p className='absolute top-0 left-1/2 z-10 transform -translate-x-1/2 text-center font-bold'>
                                 {dest.name}
                             </p>
-                            <Image className='opacity-75 rounded-xl' alt={dest.name} src={`/${dest.name}.png`} width={200} height={120} />
+                            <Image className='opacity-75 rounded-xl' alt={dest.name} src={`/${dest.name}.png`} width={200} height={200} />
                         </div>
                     )
                 ) : (

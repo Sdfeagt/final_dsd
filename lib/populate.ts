@@ -7,7 +7,7 @@ const populateDatabase = async () => {
   const destinations = {
     'Asia': ['Tokyo', 'Bangkok', 'Singapore', 'Seoul', 'Hong Kong'],
     'Europe': ['Paris', 'Rome', 'Berlin', 'Madrid', 'Helsinki'],
-    'North America': ['New York', 'Los Angeles', 'Toronto', 'Chicago', 'Mexico City']
+    'NorthAmerica': ['New York', 'Los Angeles', 'Toronto', 'Chicago', 'Mexico City']
   };
 
   console.log("Destinations defined.");
