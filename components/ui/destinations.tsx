@@ -1,6 +1,5 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { MapPin, Search } from 'lucide-react'
@@ -15,6 +14,7 @@ import {
     FormField,
     FormItem,
 } from "@/components/ui/form"
+import DestinationGrid from './destinationGrid'
 
 type Destination = {
     name: string,
@@ -85,22 +85,10 @@ const Destinations: React.FC<DestinationsProps> = ({ destinations, location }) =
                     </Button>
                 </form>
             </Form>
-            <div className='text-sm text-gray-400 mt-14 mb-4'>Popular destinations in {correctedLocation}
+            <div className='text-sm text-gray-400 mt-14 mb-4'>
+                Popular destinations in {correctedLocation}
             </div>
-            <div className='inline-grid grid-cols-2 gap-4'>
-                {filtered.length > 0 ? (
-                    filtered.map((dest) =>
-                        <div key={dest.id} className='relative'>
-                            <p className='absolute top-0 left-1/2 z-10 transform -translate-x-1/2 text-center font-bold'>
-                                {dest.name}
-                            </p>
-                            <Image className='opacity-75 rounded-xl' alt={dest.name} src={`/${dest.name}.png`} width={200} height={200} />
-                        </div>
-                    )
-                ) : (
-                    <p className='col-span-2 text-center text-sm text-gray-400'>No destinations fit your search :(</p>
-                )}
-            </div>
+            <DestinationGrid gridDestinations={filtered} />
         </div>
     )
 }
