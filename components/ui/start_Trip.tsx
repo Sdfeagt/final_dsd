@@ -25,6 +25,7 @@ import { useForm } from "react-hook-form";
 import { Button } from "./button";
 import { useRouter } from "next/navigation";
 
+
 const FormSchema = z.object({
     tripInfo: z
         .any()
@@ -36,7 +37,7 @@ const StartTrip = () => {
         resolver: zodResolver(FormSchema),
     })
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {
+    const onSubmit = (data: z.infer<typeof FormSchema>) => {
         if (data.tripInfo !== undefined) {
             router.push(`/create/${data.tripInfo}`)
         }
@@ -47,6 +48,14 @@ const StartTrip = () => {
 
     const router = useRouter()
 
+    const handlePopulateClick = async () => {
+        try {
+            await fetch('/api/populate', { method: 'POST', });
+            console.log("Done");
+        } catch (error) {
+            console.error('Error calling populate API:', error);
+        }
+    };
 
     return (
         <Form {...form}>
@@ -57,7 +66,7 @@ const StartTrip = () => {
                         <div className="m-2 flex flex-col items-center">
                             <FormField control={form.control} name="tripInfo" render={({ field }) => (
                                 <FormItem>
-                                    <Select defaultValue="europe" onValueChange={field.onChange} >
+                                    <Select defaultValue="Europe" onValueChange={field.onChange} >
                                         <FormControl>
                                             <SelectTrigger className="w-[180px] bg-figmaGreen border-figmaGreen">
                                                 <SelectValue placeholder="Explore here!" />
@@ -65,7 +74,7 @@ const StartTrip = () => {
                                         </FormControl>
                                         <SelectContent>
                                             <SelectGroup className="bg-figmaGreen border-figmaGreen" >
-                                                <SelectItem value="europe">
+                                                <SelectItem value="Europe">
                                                     <div className="flex items-center justify-between">
                                                         <div className="bg-figmaLightGreen rounded-full p-2 mr-4 flex items-center">
                                                             <Globe2 color="white" />
@@ -73,7 +82,7 @@ const StartTrip = () => {
                                                         Europe
                                                     </div>
                                                 </SelectItem>
-                                                <SelectItem value="north america">
+                                                <SelectItem value="North america">
                                                     <div className="flex items-center justify-between">
                                                         <div className="bg-figmaLightGreen rounded-full p-2 mr-4 flex items-center">
                                                             <Globe2 color="white" />
@@ -81,7 +90,7 @@ const StartTrip = () => {
                                                         North America
                                                     </div>
                                                 </SelectItem>
-                                                <SelectItem value="asia">
+                                                <SelectItem value="Asia">
                                                     <div className="flex items-center justify-between">
                                                         <div className="bg-figmaLightGreen rounded-full p-2 mr-4 flex items-center">
                                                             <Globe2 color="white" />
@@ -102,6 +111,7 @@ const StartTrip = () => {
                     </div>
                 </div>
             </form>
+
         </Form >
     )
 }

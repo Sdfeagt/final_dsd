@@ -30,6 +30,8 @@ const MainNav = async () => {
       </div>
 
       <Bell className="w-6 h-6 flex-shrink-0" />
+
+
     </div>
 
 

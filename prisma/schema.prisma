@@ -79,7 +79,8 @@ model HotelPreference {
 }
 
 model Destination {
-  id     String  @id @default(uuid())
-  name   String
-  hotels Hotel[]
+  id        String  @id @default(uuid())
+  name      String
+  continent String
+  hotels    Hotel[]
 }
