@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import { cn } from '@/lib/utils'
-import { Button } from './button'
+import Link from 'next/link'
 
 
 type Destination = {
@@ -10,10 +10,11 @@ type Destination = {
 
 }
 interface DestinationGridProps {
-    gridDestinations: Destination[]
+    gridDestinations: Destination[],
+    continent: string
 }
 
-const DestinationGrid: React.FC<DestinationGridProps> = ({ gridDestinations }) => {
+const DestinationGrid: React.FC<DestinationGridProps> = ({ gridDestinations, continent }) => {
     const [selectedId, setSelectedId] = useState("");
 
     const handleClick = (id: string) => {
@@ -40,7 +41,7 @@ const DestinationGrid: React.FC<DestinationGridProps> = ({ gridDestinations }) =
             )}
             {selectedId !== "" ? (
                 <div className='fixed inset-x-0 bottom-12 flex justify-center'>
-                    <Button className='bg-figmaGreen text-white text-lg rounded-full px-14 py-6'>Next</Button>
+                    <Link href={`/create/${continent}/${selectedId}`} className='bg-figmaGreen text-white text-lg rounded-full px-14 py-4'>Next</Link>
                 </div>
             ) :
                 <div></div>}

@@ -75,7 +75,7 @@ const Destinations: React.FC<DestinationsProps> = ({ destinations, location }) =
                         render={({ field }) => (
                             <FormItem>
                                 <FormControl>
-                                    <Input type="search" placeholder="Search..." className='bg-figmaDark text-lg' {...field} />
+                                    <Input type="search" placeholder="Search..." className='bg-figmaDark text-lg border-0' {...field} />
                                 </FormControl>
                             </FormItem>
                         )}
@@ -88,7 +88,7 @@ const Destinations: React.FC<DestinationsProps> = ({ destinations, location }) =
             <div className='text-sm text-gray-400 mt-14 mb-4'>
                 Popular destinations in {correctedLocation}
             </div>
-            <DestinationGrid gridDestinations={filtered} />
+            <DestinationGrid gridDestinations={filtered} continent={location} />
         </div>
     )
 }

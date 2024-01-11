@@ -1,6 +1,5 @@
 import Destinations from '@/components/ui/destinations'
 import prismadb from '@/lib/prismadb'
-import { useEffect } from 'react'
 
 interface LocationPageProps {
     params: { location: string }
