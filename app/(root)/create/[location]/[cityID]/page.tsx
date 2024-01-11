@@ -5,8 +5,8 @@ import Image from 'next/image'
 import { ArrowLeft } from 'lucide-react'
 import { auth, clerkClient } from "@clerk/nextjs";
 import { redirect } from 'next/navigation';
-import { Button } from '@/components/ui/button';
 import BudgetDecision from '@/components/ui/budgetDecision';
+import AddFriends from '@/components/ui/addFriends';
 
 
 
@@ -60,7 +60,7 @@ const DetailsPage: React.FC<DetailsPageProps> = async ({ params }) => {
                     <p>Who&apos;s coming?</p>
                     <Image className='rounded-full' src={user.imageUrl} alt='userimage' width={48} height={48} />
                 </div>
-                <Button className=' my-2 ml-2 rounded-full bg-figmaLightDark text-white text-semibold'>+ Add Friends</Button>
+                <AddFriends />
             </div>
             <BudgetDecision />
 

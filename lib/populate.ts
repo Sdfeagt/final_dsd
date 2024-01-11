@@ -7,10 +7,8 @@ const populateDatabase = async () => {
   const destinations = {
     'Asia': ['Tokyo', 'Bangkok', 'Singapore', 'Seoul', 'Hong Kong'],
     'Europe': ['Paris', 'Rome', 'Berlin', 'Madrid', 'Helsinki'],
-    'NorthAmerica': ['New York', 'Los Angeles', 'Toronto', 'Chicago', 'Mexico City']
+    'North America': ['New York', 'Los Angeles', 'Toronto', 'Chicago', 'Mexico City']
   };
-
-  console.log("Destinations defined.");
 
   // Define adjectives and types for hotel names
   const adjectives = ['Grand', 'Royal', 'Emerald', 'Silver', 'Golden', 'Azure', 'Scarlet', 'Majestic', 'Serene', 'Radiant'];
@@ -27,8 +25,6 @@ const populateDatabase = async () => {
       }
     }
   }
-
-  console.log(`Generated ${hotelNames.length} unique hotel names.`);
 
   // Shuffle the hotelNames array to randomize names across destinations
   hotelNames.sort(() => Math.random() - 0.5);
@@ -51,14 +47,16 @@ const populateDatabase = async () => {
 
       console.log(`Created destination: ${city}, ID: ${destination.id}`);
 
-      // Create 3 hotels for each destination with unique names
+      // Create 3 hotels for each destination with unique names and random prices
       for (let i = 0; i < 3; i++) {
-        console.log(`Creating hotel: ${hotelNames[hotelNameIndex]} in ${city}`);
+        const randomPrice = Math.floor(Math.random() * 500) + 100; // Random price between 100 and 600
+        console.log(`Creating hotel: ${hotelNames[hotelNameIndex]} in ${city} with price ${randomPrice}`);
 
         await prismadb.hotel.create({
           data: {
             name: hotelNames[hotelNameIndex++],
             destinationId: destination.id,
+            price: randomPrice,
           },
         });
 

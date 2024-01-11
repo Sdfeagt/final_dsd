@@ -59,6 +59,7 @@ const StartTrip = () => {
 
     return (
         <Form {...form}>
+            {/* <Button onClick={handlePopulateClick}>Populate</Button> */}
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex justify-center absolute bottom-0 w-full mb-8">
                 <div className="py-4 bg-figmaGreen rounded-full flex flex-col justify-between items-center relative">
                     <p className="absolute top-2 left-50 text-sm text-gray-300">Search in...</p>

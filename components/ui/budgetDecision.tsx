@@ -18,9 +18,7 @@ import {
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar"
-import Link from "next/link";
-
-
+import { Input } from "@/components/ui/input";
 
 
 const splits = [
@@ -38,11 +36,20 @@ const BudgetDecision = () => {
     const [open, setOpen] = useState(false)
     const [value, setValue] = useState("")
     const [days, setDays] = useState<Date[] | undefined>();
+    const [budget, setBudget] = useState(0)
+
+    const changeBudgetSlide = (event: any) => {
+        setBudget(event)
+    }
+
+    const changeBudgetInput = (event: any) => {
+        setBudget(event.target.value)
+    }
 
     const handleCreateLink = () => {
         console.log("Create stuff here");
     }
-
+    //TODO: fix the msg sent to be shown only when sent, return btn
     return (
         <div>
             <div className="mt-10">
@@ -54,14 +61,23 @@ const BudgetDecision = () => {
             </div>
             <div className="flex justify-center mt-10">
                 <Slider
-                    defaultValue={[50]}
-                    max={100}
+                    defaultValue={[budget]}
+                    max={5000}
                     step={1}
                     className={cn("w-[90%]")}
+                    onValueChange={changeBudgetSlide}
+                    value={[budget]}
                 />
             </div>
-            <div className="flex items-center justify-center mt-10">
-                <p className="bg-figmaDark py-1 px-4 rounded-full border border-gray-300">1000</p>
+            <div className="flex items-center justify-around mt-10">
+                <div className="flex items-center justify-center">
+                    <div className="relative w-1/2">
+                        <Input type="number" className="bg-figmaDark py-1 w-full mr-1 rounded-full border border-gray-300 pl-2 pr-8" onChange={changeBudgetInput} value={budget} />
+                        <div className="absolute inset-y-0 right-0 flex items-center pr-2">
+                            <Euro />
+                        </div>
+                    </div>
+                </div>
                 <Popover open={open} onOpenChange={setOpen}>
                     <PopoverTrigger asChild>
                         <Button
