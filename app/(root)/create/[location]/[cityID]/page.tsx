@@ -7,6 +7,7 @@ import { auth, clerkClient } from "@clerk/nextjs";
 import { redirect } from 'next/navigation';
 import BudgetDecision from '@/components/ui/budgetDecision';
 import AddFriends from '@/components/ui/addFriends';
+import Link from 'next/link';
 
 
 
@@ -41,10 +42,12 @@ const DetailsPage: React.FC<DetailsPageProps> = async ({ params }) => {
         <div>
 
             <div className='flex items-center justify-center my-6'>
-                <div className='absolute left-5 p-2 rounded-full bg-figmaLightDark'>
-                    <ArrowLeft />
+                <div className='absolute left-4 p-2 rounded-full bg-figmaLightDark'>
+                    <Link href={`/create/${params.location}`}>
+                        <ArrowLeft />
+                    </Link>
                 </div>
-                <div className='text-lg'>
+                <div className='text-lg justify-center'>
                     Create a new trip
                 </div>
             </div>

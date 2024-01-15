@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { MapPin, Search } from 'lucide-react'
+import { ArrowLeft, MapPin, Search } from 'lucide-react'
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -15,6 +15,7 @@ import {
     FormItem,
 } from "@/components/ui/form"
 import DestinationGrid from './destinationGrid'
+import Link from 'next/link'
 
 type Destination = {
     name: string,
@@ -62,7 +63,15 @@ const Destinations: React.FC<DestinationsProps> = ({ destinations, location }) =
     }
     return (
         <div>
-            <div className='text-lg flex justify-center my-6'>Where are you travelling to?
+            <div className='flex items-center justify-center my-6'>
+                <div className='absolute left-4 p-2 rounded-full bg-figmaLightDark'>
+                    <Link href={`/`}>
+                        <ArrowLeft />
+                    </Link>
+                </div>
+                <div className='flex text-lg justify-center'>
+                    Where are you travelling to?
+                </div>
             </div>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="flex items-center rounded-full bg-figmaDark my-4 py-2">
