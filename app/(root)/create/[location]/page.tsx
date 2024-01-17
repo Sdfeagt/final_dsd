@@ -1,4 +1,4 @@
-import Destinations from '@/components/ui/destinations'
+import Destinations from '@/components/destinations'
 import prismadb from '@/lib/prismadb'
 
 interface LocationPageProps {

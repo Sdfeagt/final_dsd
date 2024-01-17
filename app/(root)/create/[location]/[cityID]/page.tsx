@@ -5,8 +5,8 @@ import Image from 'next/image'
 import { ArrowLeft } from 'lucide-react'
 import { auth, clerkClient } from "@clerk/nextjs";
 import { redirect } from 'next/navigation';
-import BudgetDecision from '@/components/ui/budgetDecision';
-import AddFriends from '@/components/ui/addFriends';
+import BudgetDecision from '@/components/budgetDecision';
+import AddFriends from '@/components/addFriends';
 import Link from 'next/link';
 
 

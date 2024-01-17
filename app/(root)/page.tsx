@@ -1,5 +1,5 @@
 import MainNav from "@/components/main_navbar";
-import StartTrip from "@/components/ui/start_Trip";
+import StartTrip from "@/components/start_Trip";
 import { Toaster } from "react-hot-toast";
 
 
