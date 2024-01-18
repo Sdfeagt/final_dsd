@@ -20,10 +20,9 @@ import { Calendar } from "@/components/ui/calendar"
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 
-import { useTripStore } from "@/hooks/use-trip";
 import { Label } from "./ui/label";
-import { auth } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
+import prismadb from "@/lib/prismadb";
+import { useParticipantStore } from "@/hooks/use-participant";
 
 
 const splits = [
@@ -46,7 +45,7 @@ const BudgetDecision: React.FC<BudgetDecisionProps> = ({ destination, userId }) 
     const [days, setDays] = useState<Date[] | undefined>();
     const [budget, setBudget] = useState(1000)
     const [name, setName] = useState("")
-    const updateTripData = useTripStore(state => state.updateTripData);
+    const updateParticipantData = useParticipantStore(state => state.updateParticipantData);
 
     const changeBudgetSlide = (event: any) => {
         setBudget(event)
@@ -63,8 +62,17 @@ const BudgetDecision: React.FC<BudgetDecisionProps> = ({ destination, userId }) 
         console.log("Create stuff here");
     }
 
-    const createTrip = () => {
-        updateTripData({ name: name, ownerId: userId, budget: budget, days: days, destination: destination })
+    const createTrip = async () => {
+        let budget_split = true
+        if (value === "together") {
+            budget_split = true
+        }
+        else {
+            budget_split = false
+        }
+        //TODO: create the trip model. For that we need to have ready the User model (the current user), make it too. For that we need TripData model.
+        //TODO: create the TripData model. For TripData model we need UserPreferences model, create it too. For that we need SmallPreference model. This
+        //can be done using the data using updateParticipantData.
     }
 
     return (

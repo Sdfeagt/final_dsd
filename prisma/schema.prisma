@@ -9,20 +9,30 @@ generator client {
 }
 
 model Trip {
-  id           String        @id @default(uuid())
-  name         String
-  ownerId      String
-  participants Participant[]
-  destination  String
-  trip_days    Days[]
-  hotelId      String
-  hotel        Hotel         @relation(fields: [hotelId], references: [id])
-  budget       Int
+  id             String           @id @default(uuid())
+  name           String
+  ownerId        String
+  participantsID participantsID[]
+  destination    String
+  trip_days      Days[]
+  hotelId        String
+  hotel          Hotel            @relation(fields: [hotelId], references: [id])
+  budget         Int
+  budget_split   Boolean
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([hotelId])
+}
+
+model participantsID {
+  id            String  @id @default(uuid())
+  participantID String
+  Trip          Trip?   @relation(fields: [tripId], references: [id])
+  tripId        String?
+
+  @@index([tripId])
 }
 
 model Days {
@@ -34,21 +44,77 @@ model Days {
   @@index([tripId])
 }
 
-model Participant {
-  id                  String               @id @default(uuid())
-  userId              String
-  tripId              String
-  confirmed           Boolean
-  trip_start          DateTime
-  trip_end            DateTime
-  trip                Trip                 @relation(fields: [tripId], references: [id])
-  personal_budget     Int
-  personalPreferences PersonalPreference[]
+model User {
+  id       String     @id @default(uuid())
+  userId   String
+  tripData TripData[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TripData {
+  id              String            @id @default(uuid())
+  preferences     UserPreferences[]
+  tripId          String
+  confirmed       Boolean
+  trip_start      DateTime
+  trip_end        DateTime
+  personal_budget Int
+  userId          String
+  user            User              @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([tripId])
+  @@index([userId])
+}
+
+model UserPreferences {
+  id               String            @id @default(uuid())
+  smallPreferences SmallPreference[]
+  TripData         TripData?         @relation(fields: [tripDataId], references: [id])
+  tripDataId       String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([tripDataId])
+}
+
+model SmallPreference {
+  id   String @id @default(uuid())
+  name String
+
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  UserPreferences   UserPreferences? @relation(fields: [userPreferencesId], references: [id])
+  userPreferencesId String?
+
+  @@index([userPreferencesId])
+}
+
+//Below not used
+model HotelPreference {
+  hotelId      String
+  preferenceId String
+
+  hotel      Hotel               @relation(fields: [hotelId], references: [id])
+  preference AvailablePreference @relation(fields: [preferenceId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([hotelId, preferenceId])
+  @@index([hotelId])
+  @@index([preferenceId])
+}
+
+model Destination {
+  id        String  @id @default(uuid())
+  name      String
+  continent String
+  hotels    Hotel[]
 }
 
 model Hotel {
@@ -73,38 +139,4 @@ model AvailablePreference {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
-
-model PersonalPreference {
-  id            String      @id @default(uuid())
-  preference    String
-  participantId String
-  participant   Participant @relation(fields: [participantId], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([participantId])
-}
-
-model HotelPreference {
-  hotelId      String
-  preferenceId String
-
-  hotel      Hotel               @relation(fields: [hotelId], references: [id])
-  preference AvailablePreference @relation(fields: [preferenceId], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@id([hotelId, preferenceId])
-  @@index([hotelId])
-  @@index([preferenceId])
-}
-
-model Destination {
-  id        String  @id @default(uuid())
-  name      String
-  continent String
-  hotels    Hotel[]
 }

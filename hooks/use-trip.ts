@@ -1,5 +1,5 @@
 import {create} from 'zustand';
-
+//CURRENTLY NOT USED
 interface ParticipantData {
   name: string;
   preferences: string[];
