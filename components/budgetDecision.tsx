@@ -4,7 +4,6 @@ import { Euro } from 'lucide-react';
 import { Slider } from '@/components/ui/slider';
 import { Check, ChevronsUpDown, CalendarDays, MoveRight } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
-
 import {
     Command,
     CommandGroup,
@@ -19,6 +18,12 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar"
 import { Input } from "@/components/ui/input";
+import Link from "next/link";
+
+import { useTripStore } from "@/hooks/use-trip";
+import { Label } from "./ui/label";
+import { auth } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 
 
 const splits = [
@@ -31,12 +36,17 @@ const splits = [
         label: "together",
     },
 ]
-
-const BudgetDecision = () => {
+interface BudgetDecisionProps {
+    destination: string,
+    userId: string
+}
+const BudgetDecision: React.FC<BudgetDecisionProps> = ({ destination, userId }) => {
     const [open, setOpen] = useState(false)
     const [value, setValue] = useState("")
     const [days, setDays] = useState<Date[] | undefined>();
-    const [budget, setBudget] = useState(0)
+    const [budget, setBudget] = useState(1000)
+    const [name, setName] = useState("")
+    const updateTripData = useTripStore(state => state.updateTripData);
 
     const changeBudgetSlide = (event: any) => {
         setBudget(event)
@@ -45,17 +55,30 @@ const BudgetDecision = () => {
     const changeBudgetInput = (event: any) => {
         setBudget(event.target.value)
     }
+    const changeName = (event: any) => {
+        setName(event.target.value)
+    }
 
     const handleCreateLink = () => {
         console.log("Create stuff here");
     }
-    //TODO: fix the msg sent to be shown only when sent, return btn
+
+    const createTrip = () => {
+        updateTripData({ name: name, ownerId: userId, budget: budget, days: days, destination: destination })
+    }
+
     return (
         <div>
             <div className="mt-10">
                 <Separator />
             </div>
-            <div className="flex justify-between mt-2">
+            <div className="flex justify-center w-full mt-4">
+                <div className="w-full max-w-sm items-center gap-1.5">
+                    <Label>Trip name</Label>
+                    <Input type="text" placeholder="Name of the trip" onChange={changeName} value={name} />
+                </div>
+            </div>
+            <div className="flex justify-between mt-4">
                 <Euro />
                 <p className="text-sm">What&apos;s your budget?</p>
             </div>
@@ -129,7 +152,7 @@ const BudgetDecision = () => {
                                 <CalendarDays />
                             </div>
                             <p className="text-lg">
-                                Add preffered days
+                                Add preferred days
                             </p>
                             <div className="bg-figmaDark p-2 rounded-full">
                                 <MoveRight />
@@ -148,11 +171,12 @@ const BudgetDecision = () => {
                     </PopoverContent>
                 </Popover>
             </div>
-            {days === undefined || days.length === 0 ? <div></div> :
+            {(days !== undefined && budget !== 0 && name !== "") ? (
                 <div className='fixed inset-x-0 bottom-12 flex justify-center'>
-                    <Button onClick={handleCreateLink} className='bg-figmaGreen text-white text-lg rounded-full px-14 py-4'>Create</Button>
+                    <Link onClick={createTrip} href={`/`} className='bg-figmaGreen text-white text-lg rounded-full px-14 py-4'>Complete</Link>
                 </div>
-            }
+            ) :
+                <div></div>}
         </div>
     )
 }

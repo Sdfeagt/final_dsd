@@ -18,7 +18,6 @@ interface DetailsPageProps {
 
 const DetailsPage: React.FC<DetailsPageProps> = async ({ params }) => {
     const { userId } = auth()
-
     if (!userId) {
         redirect("/sign-in")
     }
@@ -65,7 +64,7 @@ const DetailsPage: React.FC<DetailsPageProps> = async ({ params }) => {
                 </div>
                 <AddFriends />
             </div>
-            <BudgetDecision />
+            <BudgetDecision destination={params.location} userId={userId} />
 
         </div>
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { UserButton, auth, clerkClient } from "@clerk/nextjs";
+import { auth, clerkClient } from "@clerk/nextjs";
 import { redirect } from 'next/navigation';
 
 import { Bell, MenuIcon } from 'lucide-react';

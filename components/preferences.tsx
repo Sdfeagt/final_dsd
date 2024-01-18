@@ -4,8 +4,18 @@ import { cn } from '@/lib/utils'
 import { useState } from 'react';
 import Link from 'next/link';
 
+import { useParticipantStore } from '@/hooks/use-participant';
+import { auth, clerkClient } from '@clerk/nextjs';
+import { redirect } from 'next/navigation';
+
 const PreferencesGrid = () => {
     const [clicked, setClicked] = useState<string[] | []>([])
+    const updateParticipantData = useParticipantStore(state => state.updateParticipantData);
+    const { userId } = auth()
+    if (!userId) {
+        redirect("/sign-in")
+    }
+
 
     const handleClick = (icon: string) => {
         const arrlen = clicked.filter((i) => i === icon).length
@@ -18,6 +28,12 @@ const PreferencesGrid = () => {
             //unclick
             setClicked(prev => prev.filter(i => i !== icon))
         }
+    }
+
+    const handlePreferenceClick = async () => {
+        const user = await clerkClient.users.getUser(userId);
+
+        updateParticipantData({ name: user?.firstName + " " + user?.lastName, preferences: clicked });
     }
     return (
         <div className='flex justify-center items-center'>
@@ -110,7 +126,7 @@ const PreferencesGrid = () => {
 
             {clicked.length !== 0 ? (
                 <div className='fixed inset-x-0 bottom-12 flex justify-center'>
-                    <Link href={`/`} className='bg-figmaGreen text-white text-lg rounded-full px-14 py-4'>Complete</Link>
+                    <Link href={`/`} onClick={handlePreferenceClick} className='bg-figmaGreen text-white text-lg rounded-full px-14 py-4'>Complete</Link>
                 </div>
             ) :
                 <div></div>}

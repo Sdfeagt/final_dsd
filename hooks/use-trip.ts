@@ -1,11 +1,18 @@
 import {create} from 'zustand';
 
-interface TripData {
+interface ParticipantData {
+  name: string;
+  preferences: string[];
+}
+  
+  
+  interface TripData {
     name: string;
     ownerId: string;
-    destinationId: string;
-    hotelId: string;
-    participants: string[];
+    destination: string;
+    participants: ParticipantData[];
+    days: Date[];
+    budget: number;
   }
   
   interface TripStore {
@@ -13,15 +20,19 @@ interface TripData {
     updateTripData: (newData: Partial<TripData>) => void;
   }
 
+
 const useTripStore = create<TripStore>((set) => ({
   tripData: {
     name: '',
     ownerId: '',
-    destinationId: '',
-    hotelId: '',
+    destination: '',
     participants: [],
+    days: [],
+    budget: 0,
   },
 
   updateTripData: (newData) => set((state) => ({
     tripData: { ...state.tripData, ...newData },
   }))}))
+
+  export {useTripStore}
