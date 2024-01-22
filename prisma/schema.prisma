@@ -12,18 +12,15 @@ model Trip {
   id             String           @id @default(uuid())
   name           String
   ownerId        String
-  participantsID participantsID[]
   destination    String
   trip_days      Days[]
-  hotelId        String
-  hotel          Hotel            @relation(fields: [hotelId], references: [id])
+  hotelName      String
   budget         Int
   budget_split   Boolean
+  participantsID participantsID[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  @@index([hotelId])
 }
 
 model participantsID {
@@ -31,6 +28,9 @@ model participantsID {
   participantID String
   Trip          Trip?   @relation(fields: [tripId], references: [id])
   tripId        String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([tripId])
 }
@@ -41,101 +41,51 @@ model Days {
   Trip   Trip?    @relation(fields: [tripId], references: [id])
   tripId String?
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@index([tripId])
 }
 
-model User {
-  id       String     @id @default(uuid())
-  userId   String
-  tripData TripData[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model TripData {
-  id              String            @id @default(uuid())
-  preferences     UserPreferences[]
-  tripId          String
+model IndividualTripData {
+  //Every user that gets invited get's that model
+  id              String   @id @default(uuid())
   confirmed       Boolean
   trip_start      DateTime
   trip_end        DateTime
   personal_budget Int
-  userId          String
-  user            User              @relation(fields: [userId], references: [id])
+  ownerId         String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  @@index([userId])
 }
 
 model UserPreferences {
   id               String            @id @default(uuid())
   smallPreferences SmallPreference[]
-  TripData         TripData?         @relation(fields: [tripDataId], references: [id])
-  tripDataId       String?
+  userId           String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  @@index([tripDataId])
 }
 
 model SmallPreference {
   id   String @id @default(uuid())
   name String
 
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @updatedAt
   UserPreferences   UserPreferences? @relation(fields: [userPreferencesId], references: [id])
   userPreferencesId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([userPreferencesId])
 }
 
-//Below not used
-model HotelPreference {
-  hotelId      String
-  preferenceId String
-
-  hotel      Hotel               @relation(fields: [hotelId], references: [id])
-  preference AvailablePreference @relation(fields: [preferenceId], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@id([hotelId, preferenceId])
-  @@index([hotelId])
-  @@index([preferenceId])
-}
-
 model Destination {
-  id        String  @id @default(uuid())
+  id        String @id @default(uuid())
   name      String
   continent String
-  hotels    Hotel[]
-}
-
-model Hotel {
-  id            String            @id @default(uuid())
-  name          String
-  preferences   HotelPreference[]
-  trips         Trip[]
-  destinationId String
-  destination   Destination       @relation(fields: [destinationId], references: [id])
-  price         Int
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([destinationId])
-}
-
-model AvailablePreference {
-  id     String            @id @default(uuid())
-  name   String
-  hotels HotelPreference[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

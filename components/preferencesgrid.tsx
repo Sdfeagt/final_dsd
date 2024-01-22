@@ -8,13 +8,12 @@ import { useParticipantStore } from '@/hooks/use-participant';
 import { auth, clerkClient } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 
-const PreferencesGrid = () => {
+interface PreferencesGridProps {
+    userId: string
+}
+const PreferencesGrid: React.FC<PreferencesGridProps> = ({ userId }) => {
     const [clicked, setClicked] = useState<string[] | []>([])
     const updateParticipantData = useParticipantStore(state => state.updateParticipantData);
-    const { userId } = auth()
-    if (!userId) {
-        redirect("/sign-in")
-    }
 
 
     const handleClick = (icon: string) => {

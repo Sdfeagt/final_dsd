@@ -14,6 +14,6 @@ export default function Home() {
             </div>
             <StartTrip />
             <Toaster />
-        </div >
+        </div>
     )
 }

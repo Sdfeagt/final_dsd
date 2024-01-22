@@ -1,5 +1,5 @@
 import React from 'react'
-import { auth, clerkClient } from "@clerk/nextjs";
+import { UserButton, auth, clerkClient } from "@clerk/nextjs";
 import { redirect } from 'next/navigation';
 
 import { Bell, MenuIcon } from 'lucide-react';
@@ -45,8 +45,8 @@ const MainNav = async () => {
               <DropdownMenuItem><Link href={"/subscription"}>Subscription</Link></DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          {/* <UserButton afterSignOutUrl='/sign-in"' /> */}
-          <Image className='rounded-full' src={user.imageUrl} alt='userimage' width={36} height={36} />
+          <UserButton afterSignOutUrl='/sign-in"' />
+          {/* <Image className='rounded-full' src={user.imageUrl} alt='userimage' width={36} height={36} /> */}
           <div>
             <h1 className="text-lg font-semibold">Hello,</h1>
             <p className="text-sm">{user?.firstName}</p>
