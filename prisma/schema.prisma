@@ -13,11 +13,11 @@ model Trip {
   name           String
   ownerId        String
   destination    String
-  trip_days      Days[]
+  Days           Days[]           @relation("DaystoTrip")
   hotelName      String
   budget         Int
   budget_split   Boolean
-  participantsID participantsID[]
+  participantsID participantsID[] @relation("ParticipantsToTrip")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -26,11 +26,11 @@ model Trip {
 model participantsID {
   id            String  @id @default(uuid())
   participantID String
-  Trip          Trip?   @relation(fields: [tripId], references: [id])
   tripId        String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  Trip      Trip?    @relation("ParticipantsToTrip", fields: [tripId], references: [id])
 
   @@index([tripId])
 }
@@ -38,11 +38,11 @@ model participantsID {
 model Days {
   id     String   @id @default(uuid())
   day    DateTime
-  Trip   Trip?    @relation(fields: [tripId], references: [id])
   tripId String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  Trip      Trip?    @relation("DaystoTrip", fields: [tripId], references: [id])
 
   @@index([tripId])
 }
@@ -60,26 +60,13 @@ model IndividualTripData {
   updatedAt DateTime @updatedAt
 }
 
-model UserPreferences {
-  id               String            @id @default(uuid())
-  smallPreferences SmallPreference[]
-  userId           String
+model UserPreference {
+  id     String @id @default(uuid())
+  name   String
+  userId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
-
-model SmallPreference {
-  id   String @id @default(uuid())
-  name String
-
-  UserPreferences   UserPreferences? @relation(fields: [userPreferencesId], references: [id])
-  userPreferencesId String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([userPreferencesId])
 }
 
 model Destination {

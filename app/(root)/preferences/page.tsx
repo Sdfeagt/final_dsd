@@ -22,7 +22,7 @@ const Preferences = () => {
                     Set your preferences!
                 </div>
             </div>
-            <PreferencesGrid userId={userId} />
+            <PreferencesGrid />
         </div>
     );
 }

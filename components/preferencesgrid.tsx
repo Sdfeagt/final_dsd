@@ -2,18 +2,11 @@
 import { Dumbbell, Briefcase, Dog, Bike, Fan, Wifi, MonitorCheck, ChefHat, SunMoon, Gem, Banknote, Star } from 'lucide-react';
 import { cn } from '@/lib/utils'
 import { useState } from 'react';
+import axios from "axios";
 import Link from 'next/link';
 
-import { useParticipantStore } from '@/hooks/use-participant';
-import { auth, clerkClient } from '@clerk/nextjs';
-import { redirect } from 'next/navigation';
-
-interface PreferencesGridProps {
-    userId: string
-}
-const PreferencesGrid: React.FC<PreferencesGridProps> = ({ userId }) => {
+const PreferencesGrid = () => {
     const [clicked, setClicked] = useState<string[] | []>([])
-    const updateParticipantData = useParticipantStore(state => state.updateParticipantData);
 
 
     const handleClick = (icon: string) => {
@@ -30,9 +23,12 @@ const PreferencesGrid: React.FC<PreferencesGridProps> = ({ userId }) => {
     }
 
     const handlePreferenceClick = async () => {
-        const user = await clerkClient.users.getUser(userId);
-
-        updateParticipantData({ name: user?.firstName + " " + user?.lastName, preferences: clicked });
+        try {
+            const preferences = clicked
+            await axios.post("/api/updatePreferences", preferences)
+        } catch (error) {
+            console.log("Error: " + error);
+        }
     }
     return (
         <div className='flex justify-center items-center'>
@@ -125,7 +121,7 @@ const PreferencesGrid: React.FC<PreferencesGridProps> = ({ userId }) => {
 
             {clicked.length !== 0 ? (
                 <div className='fixed inset-x-0 bottom-12 flex justify-center'>
-                    <Link href={`/`} onClick={handlePreferenceClick} className='bg-figmaGreen text-white text-lg rounded-full px-14 py-4'>Complete</Link>
+                    <Link href={"/"} onClick={handlePreferenceClick} className='bg-figmaGreen text-white text-lg rounded-full px-14 py-4'>Complete</Link>
                 </div>
             ) :
                 <div></div>}
