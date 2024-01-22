@@ -13,7 +13,7 @@ model Trip {
   name           String
   ownerId        String
   destination    String
-  Days           Days[]           @relation("DaystoTrip")
+  days           Days[]           @relation("DaystoTrip")
   hotelName      String
   budget         Int
   budget_split   Boolean
