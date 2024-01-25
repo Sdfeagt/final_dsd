@@ -29,21 +29,36 @@ export async function POST(req: Request) {
             return new NextResponse("budgetSplit is required", { status: 400 });
         }
             // Add new trip
-            await prismadb.trip.create({
+
+        const trip = await prismadb.trip.create({
                 data:{
                     name,
                     ownerId,
                     destination,
-                    days,
+                    days: {
+                        create: days.map((day: any) => ({ day: new Date(day) })),
+                    },
                     hotelName: "",
-                    budget,
-                    budget_split: budgetSplit
+                    budget: Array.isArray(budget) ? budget[0] : parseInt(budget, 10),
+                    budget_split: budgetSplit,
+                    participantsID: {
+                        create: [{ participantID: ownerId }]
+                    },                    
                 }
             });
-
-        return NextResponse.json({ message: 'Preferences updated successfully' });
+        await prismadb.individualTripData.create({
+            data:{
+                tripId: trip.id,
+                confirmed: true,
+                personal_days: {
+                    create: days.map((day: any) => ({ day: new Date(day) })),
+                },
+                budget
+            }
+        })
+        return NextResponse.json({ message: 'Trip created' });
     } catch (error) {
-        console.log('[PREFERENCES_POST]', error);
+        console.log('[TRIP_POST]', error);
         return new NextResponse("Internal error", { status: 500 });
     }
 }

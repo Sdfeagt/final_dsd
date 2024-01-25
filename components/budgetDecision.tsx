@@ -58,20 +58,17 @@ const BudgetDecision: React.FC<BudgetDecisionProps> = ({ destination, userId }) 
     }
 
     const handleCreateLink = async () => {
-        try {
-            const ownerId = userId
-            await axios.post("/api/createTrip", { name, ownerId, destination, days, budget, budgetSplit })
-        } catch (error) {
-            console.log("Error: " + error);
-        }
-    }
-
-    const createTrip = async () => {
         if (value === "together") {
             setBudgetSplit(true)
         }
         else {
             setBudgetSplit(false)
+        }
+        try {
+            const ownerId = userId
+            await axios.post("/api/createTrip", { name, ownerId, destination, days, budget, budgetSplit })
+        } catch (error) {
+            console.log("Error: " + error);
         }
     }
 
@@ -181,7 +178,7 @@ const BudgetDecision: React.FC<BudgetDecisionProps> = ({ destination, userId }) 
             </div>
             {(days !== undefined && budget !== 0 && name !== "") ? (
                 <div className='fixed inset-x-0 bottom-12 flex justify-center'>
-                    <Link onClick={createTrip} href={`/`} className='bg-figmaGreen text-white text-lg rounded-full px-14 py-4'>Complete</Link>
+                    <Link onClick={handleCreateLink} href={`/`} className='bg-figmaGreen text-white text-lg rounded-full px-14 py-4'>Complete</Link>
                 </div>
             ) :
                 <div></div>}

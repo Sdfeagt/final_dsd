@@ -40,21 +40,24 @@ model Days {
   day    DateTime
   tripId String?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  Trip      Trip?    @relation("DaystoTrip", fields: [tripId], references: [id])
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+  Trip                 Trip?               @relation("DaystoTrip", fields: [tripId], references: [id])
+  individualTripDataId String?
+  IndividualTripData   IndividualTripData? @relation("DaysToIndividualTripData", fields: [individualTripDataId], references: [id])
 
   @@index([tripId])
+  @@index([individualTripDataId])
 }
 
 model IndividualTripData {
-  //Every user that gets invited get's that model
-  id              String   @id @default(uuid())
-  confirmed       Boolean
-  trip_start      DateTime
-  trip_end        DateTime
-  personal_budget Int
-  ownerId         String
+  //Every user that gets invited gets that model
+  id     String @id @default(uuid())
+  tripId String
+
+  confirmed     Boolean
+  personal_days Days[]  @relation("DaysToIndividualTripData")
+  budget        Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
