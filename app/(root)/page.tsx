@@ -13,7 +13,6 @@ export default async function Home() {
     if (!userId) {
         redirect("/sign-in")
     }
-
     const trips = await prismadb.trip.findMany({
         where: {
             participantsID: {

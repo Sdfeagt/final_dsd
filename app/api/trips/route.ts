@@ -28,8 +28,6 @@ export async function POST(req: Request) {
         if (!budgetSplit) {
             return new NextResponse("budgetSplit is required", { status: 400 });
         }
-            // Add new trip
-
         const trip = await prismadb.trip.create({
                 data:{
                     name,
@@ -53,7 +51,7 @@ export async function POST(req: Request) {
                 personal_days: {
                     create: days.map((day: any) => ({ day: new Date(day) })),
                 },
-                budget
+                budget: Array.isArray(budget) ? budget[0] : parseInt(budget, 10),
             }
         })
         return NextResponse.json({ message: 'Trip created' });

@@ -22,6 +22,8 @@ import Link from "next/link";
 
 import { Label } from "./ui/label";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+
 
 
 const splits = [
@@ -46,6 +48,9 @@ const BudgetDecision: React.FC<BudgetDecisionProps> = ({ destination, userId }) 
     const [name, setName] = useState("")
     const [budgetSplit, setBudgetSplit] = useState(true)
 
+    const router = useRouter()
+
+
     const changeBudgetSlide = (event: any) => {
         setBudget(event)
     }
@@ -57,7 +62,7 @@ const BudgetDecision: React.FC<BudgetDecisionProps> = ({ destination, userId }) 
         setName(event.target.value)
     }
 
-    const handleCreateLink = async () => {
+    const handleCreateTrip = async () => {
         if (value === "together") {
             setBudgetSplit(true)
         }
@@ -66,7 +71,8 @@ const BudgetDecision: React.FC<BudgetDecisionProps> = ({ destination, userId }) 
         }
         try {
             const ownerId = userId
-            await axios.post("/api/createTrip", { name, ownerId, destination, days, budget, budgetSplit })
+            await axios.post("/api/trips", { name, ownerId, destination, days, budget, budgetSplit })
+            router.refresh()
         } catch (error) {
             console.log("Error: " + error);
         }
@@ -178,7 +184,7 @@ const BudgetDecision: React.FC<BudgetDecisionProps> = ({ destination, userId }) 
             </div>
             {(days !== undefined && budget !== 0 && name !== "") ? (
                 <div className='fixed inset-x-0 bottom-12 flex justify-center'>
-                    <Link onClick={handleCreateLink} href={`/`} className='bg-figmaGreen text-white text-lg rounded-full px-14 py-4'>Complete</Link>
+                    <Link onClick={handleCreateTrip} href={`/`} className='bg-figmaGreen text-white text-lg rounded-full px-14 py-4'>Complete</Link>
                 </div>
             ) :
                 <div></div>}
