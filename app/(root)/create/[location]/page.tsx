@@ -2,7 +2,7 @@ import Destinations from '@/components/destinations'
 import prismadb from '@/lib/prismadb'
 
 interface LocationPageProps {
-    params: { location: string }
+    params: { location: string, cityID: string }
 }
 
 const Location: React.FC<LocationPageProps> = async ({ params }) => {

@@ -24,9 +24,7 @@ type Destination = {
 }
 interface DestinationsProps {
     destinations: Destination[],
-    location: string
-
-
+    location: string,
 }
 
 const FormSchema = z.object({

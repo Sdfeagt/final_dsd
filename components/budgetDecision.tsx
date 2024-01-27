@@ -23,6 +23,7 @@ import Link from "next/link";
 import { Label } from "./ui/label";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { Destination } from "@prisma/client";
 
 
 
@@ -37,7 +38,7 @@ const splits = [
     },
 ]
 interface BudgetDecisionProps {
-    destination: string,
+    destination: Destination | null,
     userId: string
 }
 const BudgetDecision: React.FC<BudgetDecisionProps> = ({ destination, userId }) => {
@@ -71,7 +72,8 @@ const BudgetDecision: React.FC<BudgetDecisionProps> = ({ destination, userId }) 
         }
         try {
             const ownerId = userId
-            await axios.post("/api/trips", { name, ownerId, destination, days, budget, budgetSplit })
+            const cityName = destination?.name
+            await axios.post("/api/trips", { name, ownerId, cityName, days, budget, budgetSplit })
             router.refresh()
         } catch (error) {
             console.log("Error: " + error);

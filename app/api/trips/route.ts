@@ -5,7 +5,7 @@ import prismadb from "@/lib/prismadb";
 export async function POST(req: Request) {
     try {
         const { userId } = auth();
-        const { name, ownerId, destination, days, budget, budgetSplit} = await req.json();
+        const { name, ownerId, cityName, days, budget, budgetSplit} = await req.json();
 
         if (!userId) {
             return new NextResponse("Unauthenticated", { status: 403 });
@@ -16,8 +16,8 @@ export async function POST(req: Request) {
         if (!ownerId) {
             return new NextResponse("ownerId is required", { status: 400 });
         }
-        if (!destination) {
-            return new NextResponse("destination is required", { status: 400 });
+        if (!cityName) {
+            return new NextResponse("City is required", { status: 400 });
         }
         if (!days) {
             return new NextResponse("days is required", { status: 400 });
@@ -32,7 +32,7 @@ export async function POST(req: Request) {
                 data:{
                     name,
                     ownerId,
-                    destination,
+                    destination: cityName,
                     days: {
                         create: days.map((day: any) => ({ day: new Date(day) })),
                     },
