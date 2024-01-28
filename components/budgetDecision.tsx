@@ -39,9 +39,10 @@ const splits = [
 ]
 interface BudgetDecisionProps {
     destination: Destination | null,
-    userId: string
+    userId: string,
+    userEmail: string
 }
-const BudgetDecision: React.FC<BudgetDecisionProps> = ({ destination, userId }) => {
+const BudgetDecision: React.FC<BudgetDecisionProps> = ({ destination, userId, userEmail }) => {
     const [open, setOpen] = useState(false)
     const [value, setValue] = useState("")
     const [days, setDays] = useState<Date[] | undefined>();
@@ -73,7 +74,7 @@ const BudgetDecision: React.FC<BudgetDecisionProps> = ({ destination, userId }) 
         try {
             const ownerId = userId
             const cityName = destination?.name
-            await axios.post("/api/trips", { name, ownerId, cityName, days, budget, budgetSplit })
+            await axios.post("/api/trips", { name, ownerId, cityName, days, budget, budgetSplit, userEmail })
             router.refresh()
         } catch (error) {
             console.log("Error: " + error);

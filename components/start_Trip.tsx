@@ -112,6 +112,7 @@ const StartTrip = () => {
                     </div>
                 </div>
             </form>
+            {/* <Button onClick={handlePopulateClick}>Populate</Button> */}
 
         </Form >
     )

@@ -64,7 +64,7 @@ const DetailsPage: React.FC<DetailsPageProps> = async ({ params }) => {
                 </div>
                 <AddFriends />
             </div>
-            <BudgetDecision destination={city} userId={userId} />
+            <BudgetDecision destination={city} userId={userId} userEmail={user.emailAddresses[0].emailAddress} />
 
         </div>
 

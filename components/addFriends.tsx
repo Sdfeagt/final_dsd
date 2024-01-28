@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button } from './ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Input } from './ui/input';
@@ -27,6 +27,27 @@ const AddFriends = () => {
     const [openModal, setOpenModal] = useState(false);
     const [sent, setSent] = useState(false);
     const [fadeEffect, setFadeEffect] = useState(false);
+    const popoverRef = useRef<HTMLDivElement>(null);
+
+    function handleOutsideClick(event: any) {
+        if (popoverRef.current && !popoverRef.current.contains(event.target)) {
+            setOpenModal(false);
+        }
+    }
+
+    // useEffect to add/remove event listener
+    useEffect(() => {
+        if (openModal) {
+            document.addEventListener('click', handleOutsideClick);
+        } else {
+            document.removeEventListener('click', handleOutsideClick);
+        }
+
+        return () => {
+            // Clean up the event listener
+            document.removeEventListener('click', handleOutsideClick);
+        };
+    }, [openModal])
 
 
 
@@ -63,7 +84,7 @@ const AddFriends = () => {
                     )}
                 </div>
             </PopoverTrigger>
-            <PopoverContent className="w-80">
+            <PopoverContent className="w-80" ref={popoverRef}>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="grid w-full max-w-sm items-center gap-1.5">
                         <FormField

@@ -2,7 +2,7 @@ import MainNav from "@/components/main_navbar";
 import StartTrip from "@/components/start_Trip";
 import TripElem from "@/components/tripsElem";
 import prismadb from "@/lib/prismadb";
-import { auth } from "@clerk/nextjs";
+import { auth, clerkClient } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { Toaster } from "react-hot-toast";
 
@@ -13,11 +13,13 @@ export default async function Home() {
     if (!userId) {
         redirect("/sign-in")
     }
+
+    const user = await clerkClient.users.getUser(userId);
     const trips = await prismadb.trip.findMany({
         where: {
-            participantsID: {
+            participantsEmail: {
                 some: {
-                    participantID: userId
+                    participantEmail: user.emailAddresses[0].emailAddress
                 }
             }
         }

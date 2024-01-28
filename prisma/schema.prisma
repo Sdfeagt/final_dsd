@@ -9,24 +9,24 @@ generator client {
 }
 
 model Trip {
-  id             String           @id @default(uuid())
-  name           String
-  ownerId        String
-  destination    String
-  days           Days[]           @relation("DaystoTrip")
-  hotelName      String
-  budget         Int
-  budget_split   Boolean
-  participantsID participantsID[] @relation("ParticipantsToTrip")
+  id                String              @id @default(uuid())
+  name              String
+  ownerId           String
+  destination       String
+  days              Days[]              @relation("DaystoTrip")
+  hotelName         String
+  budget            Int
+  budget_split      Boolean
+  participantsEmail participantsEmail[] @relation("ParticipantsToTrip")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model participantsID {
-  id            String  @id @default(uuid())
-  participantID String
-  tripId        String?
+model participantsEmail {
+  id               String  @id @default(uuid())
+  participantEmail String
+  tripId           String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -54,6 +54,7 @@ model IndividualTripData {
   //Every user that gets invited gets that model
   id     String @id @default(uuid())
   tripId String
+  email  String
 
   confirmed     Boolean
   personal_days Days[]  @relation("DaysToIndividualTripData")
