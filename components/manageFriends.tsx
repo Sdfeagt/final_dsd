@@ -3,17 +3,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Button } from './ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Check, Trash2, X } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import Image from 'next/image';
-import { Days, IndividualTripData } from '@prisma/client';
-
-type ParticipantWithUserDetails = IndividualTripData & {
-    firstname: string | null | undefined;
-    lastname: string | null | undefined;
-    imageUrl: string;
-    personal_days: Days[];
-    userID: string | null | undefined;
-};
+import { ParticipantWithUserDetails } from '@/lib/types';
 
 interface ManageFriendsProps {
     participants: ParticipantWithUserDetails[],
@@ -22,8 +13,6 @@ interface ManageFriendsProps {
 
 const ManageFriends: React.FC<ManageFriendsProps> = ({ participants, tripOwnerID }) => {
     const [openModal, setOpenModal] = useState(false);
-    const [sent, setSent] = useState(false);
-    const [fadeEffect, setFadeEffect] = useState(false);
     const popoverRef = useRef<HTMLDivElement>(null);
 
     function handleOutsideClick(event: any) {
@@ -32,7 +21,6 @@ const ManageFriends: React.FC<ManageFriendsProps> = ({ participants, tripOwnerID
         }
     }
 
-    // useEffect to add/remove event listener
     useEffect(() => {
         if (openModal) {
             document.addEventListener('click', handleOutsideClick);
@@ -41,7 +29,6 @@ const ManageFriends: React.FC<ManageFriendsProps> = ({ participants, tripOwnerID
         }
 
         return () => {
-            // Clean up the event listener
             document.removeEventListener('click', handleOutsideClick);
         };
     }, [openModal])
@@ -56,11 +43,6 @@ const ManageFriends: React.FC<ManageFriendsProps> = ({ participants, tripOwnerID
             <PopoverTrigger asChild>
                 <div className='flex items-center '>
                     <Button onClick={() => setOpenModal(!openModal)} className='my-2 ml-2 rounded-full bg-figmaLightDark text-white text-semibold'>Manage participants</Button>
-                    {sent && !openModal && (
-                        <div className={cn("flex transition-opacity duration-500", fadeEffect ? "opacity-100'" : "opacity-0")}>
-                            <Check /> <p className='text-figmaGreen'>Message sent</p>
-                        </div>
-                    )}
                 </div>
             </PopoverTrigger>
             <PopoverContent className="w-80" ref={popoverRef}>

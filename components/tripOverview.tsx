@@ -1,19 +1,14 @@
-import { Days, IndividualTripData, Trip } from '@prisma/client'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import Image from 'next/image'
-import { User } from '@clerk/nextjs/server'
 import AddFriends from './addFriends'
 import ManageFriends from './manageFriends'
-import { redirect } from 'next/navigation';
-
-type ParticipantWithUserDetails = IndividualTripData & {
-    firstname: string | null | undefined;
-    lastname: string | null | undefined;
-    imageUrl: string;
-    personal_days: Days[];
-};
+import { redirect, useRouter } from 'next/navigation';
+import { ParticipantWithUserDetails } from '@/lib/types'
+import { Calendar } from './ui/calendar'
+import { Days, Trip } from '@prisma/client'
+import { User } from '@clerk/nextjs/server'
 
 interface TripOverviewProps {
     trip: Trip | null,
@@ -21,6 +16,7 @@ interface TripOverviewProps {
     user: User,
     participants: ParticipantWithUserDetails[]
 }
+
 const TripOverview: React.FC<TripOverviewProps> = ({ trip, user, participants, trip_days }) => {
     //TODO: Add the hotel chosen, and current participants and their status
     if (!trip) {
@@ -51,22 +47,26 @@ const TripOverview: React.FC<TripOverviewProps> = ({ trip, user, participants, t
                     <p>Add more participants!</p>
                     <Image className='rounded-full' src={user.imageUrl} alt='userimage' width={48} height={48} />
                 </div>
-                <AddFriends />
-                <ManageFriends participants={participants} tripOwnerID={trip.ownerId} />
+                <div className='flex justify-between mt-4'>
+                    <AddFriends />
+                    <ManageFriends participants={participants} tripOwnerID={trip.ownerId} />
+                </div>
             </div>
-            <div className='flex flex-col justify-center m-2'>
+            <div className='flex flex-col justify-center m-2 text-center'>
                 <p className='text-sm'>Based on your preferences, we believe you&apos;ll like</p>
                 <p className='flex justify-center text-semibold text-lg text-semibold'>Test hotel name</p>
             </div>
-            <div className='flex flex-col justify-center m-2'>
+            <div className='flex flex-col justify-center m-2 text-center'>
                 <p className='text-sm'>Taking into account your and your&apos;s friends free time, we suggest the trip takes place</p>
-                <div className="flex flex-wrap justify-center text-semibold text-lg">
-                    {trip_days.map(day => (
-                        <div key={day.id} className="mr-2 mb-2">
-                            {day.day.getDate()} {day.day.toLocaleString('en-us', { month: 'short' })}
-                        </div>
-                    ))}
+                <div className="flex flex-col justify-center h-1/2 mt-4">
+                    <Calendar
+                        mode="multiple"
+                        selected={trip_days.map(day => day.day)}
+                        className="rounded-md border"
+                    />
                 </div>
+                {user.id === trip.ownerId ? <div className='my-6'><Link href={`/${trip.id}/manage`} className='bg-figmaGreen text-white text-lg rounded-full p-3 m-4'>Manage trip</Link></div> : <div></div>}
+
             </div>
         </div>
     )
