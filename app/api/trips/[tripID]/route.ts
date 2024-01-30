@@ -13,7 +13,8 @@ export async function DELETE(req: Request, {params}: {params: {tripID: string}})
         }
 
         const tripbyownerID = await prismadb.trip.findFirst({where:{
-            ownerId: userId
+            ownerId: userId,
+            id: params.tripID
         }})
 
         if(!tripbyownerID){
@@ -35,6 +36,68 @@ export async function DELETE(req: Request, {params}: {params: {tripID: string}})
     }
     catch (error) {
         console.log('[TRIP_DELETE]', error);
+        return new NextResponse("Internal error", { status: 500 });
+    }
+}
+
+
+export async function PATCH(req: Request, {params}: {params: {tripID: string}}) {
+try{
+    const { userId } = auth();
+    if (!userId) {
+        return new NextResponse("Unauthenticated", { status: 403 });
+    }
+    if (!params.tripID) {
+        return new NextResponse("Trip ID is required", { status: 400 });
+    }
+
+    const tripbyownerID = await prismadb.trip.findFirst({where:{
+        ownerId: userId,
+        id: params.tripID
+    }})
+
+    if(!tripbyownerID){
+        return new NextResponse("Unauthorized", { status: 403 });
+    }
+
+    const { tripName, destVal, budget, splitString, tripDays} = await req.json();
+
+    if (!tripName) {
+        return new NextResponse("Trip name is required", { status: 400 });
+    }
+    if (!destVal) {
+        return new NextResponse("Destination is required", { status: 400 });
+    }
+    if (!budget) {
+        return new NextResponse("Budget is required", { status: 400 });
+    }
+    if (!splitString) {
+        return new NextResponse("Split is required", { status: 400 });
+    }
+    if (!tripDays) {
+        return new NextResponse("Trip days is required", { status: 400 });
+    }
+
+    const trip = await prismadb.trip.update({
+        where:{
+            ownerId: userId,
+            id: params.tripID,
+        },
+        data: {
+            name: tripName,
+            destination: destVal,
+            budget,
+            budget_split: splitString,
+            days: tripDays
+        }
+    })
+
+    return NextResponse.json(trip)
+
+
+}
+    catch (error) {
+        console.log('[TRIP_PATCH]', error);
         return new NextResponse("Internal error", { status: 500 });
     }
 }

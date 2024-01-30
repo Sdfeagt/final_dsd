@@ -1,12 +1,15 @@
+import ManageTrip from "@/components/manageTrip";
 import prismadb from "@/lib/prismadb";
 import { auth, clerkClient } from "@clerk/nextjs";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 interface ManageTripPageProps {
     params: { tripID: string }
 }
 
-const ManageTrip: React.FC<ManageTripPageProps> = async ({ params }) => {
+const ManageTripPage: React.FC<ManageTripPageProps> = async ({ params }) => {
     const { userId } = auth()
     if (!userId) {
         redirect("/sign-in")
@@ -32,9 +35,23 @@ const ManageTrip: React.FC<ManageTripPageProps> = async ({ params }) => {
     if (userId !== trip.ownerId) {
         redirect("/")
     }
+
+    const dest = await prismadb.destination.findMany()
     return (
-        <div>ManageTrip</div>
+        <div>
+            <div className='flex items-center justify-center my-6'>
+                <div className='absolute left-4 p-2 rounded-full bg-figmaLightDark'>
+                    <Link href={`/${params.tripID}`}>
+                        <ArrowLeft />
+                    </Link>
+                </div>
+                <div className='flex text-lg justify-center'>
+                    Manage your trip
+                </div>
+            </div>
+            <ManageTrip trip={trip} days={trip.days} destinations={dest} />
+        </div>
     )
 }
 
-export default ManageTrip
+export default ManageTripPage

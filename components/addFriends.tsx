@@ -35,7 +35,6 @@ const AddFriends = () => {
         }
     }
 
-    // useEffect to add/remove event listener
     useEffect(() => {
         if (openModal) {
             document.addEventListener('click', handleOutsideClick);

@@ -4,7 +4,7 @@ import React from 'react'
 import Image from 'next/image'
 import AddFriends from './addFriends'
 import ManageFriends from './manageFriends'
-import { redirect, useRouter } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import { ParticipantWithUserDetails } from '@/lib/types'
 import { Calendar } from './ui/calendar'
 import { Days, Trip } from '@prisma/client'
@@ -18,7 +18,6 @@ interface TripOverviewProps {
 }
 
 const TripOverview: React.FC<TripOverviewProps> = ({ trip, user, participants, trip_days }) => {
-    //TODO: Add the hotel chosen, and current participants and their status
     if (!trip) {
         redirect("/")
     }
@@ -62,7 +61,7 @@ const TripOverview: React.FC<TripOverviewProps> = ({ trip, user, participants, t
                     <Calendar
                         mode="multiple"
                         selected={trip_days.map(day => day.day)}
-                        className="rounded-md border"
+                        className="rounded-md border flex justify-center"
                     />
                 </div>
                 {user.id === trip.ownerId ? <div className='my-6'><Link href={`/${trip.id}/manage`} className='bg-figmaGreen text-white text-lg rounded-full p-3 m-4'>Manage trip</Link></div> : <div></div>}

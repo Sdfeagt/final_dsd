@@ -179,7 +179,7 @@ const BudgetDecision: React.FC<BudgetDecisionProps> = ({ destination, userId, us
                                 mode="multiple"
                                 selected={days}
                                 onSelect={setDays}
-                                className="rounded-md border"
+                                className="rounded-md border flex justify-center"
                             />
                         </div>
                     </PopoverContent>
