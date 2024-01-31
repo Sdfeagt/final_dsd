@@ -88,7 +88,9 @@ try{
             destination: destVal,
             budget,
             budget_split: splitString,
-            days: tripDays
+            days: {
+                create: tripDays.map((day: any) => ({ day: new Date(day) })),
+            },
         }
     })
 

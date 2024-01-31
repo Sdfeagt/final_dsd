@@ -56,7 +56,11 @@ const TripOverview: React.FC<TripOverviewProps> = ({ trip, user, participants, t
                 <p className='flex justify-center text-semibold text-lg text-semibold'>Test hotel name</p>
             </div>
             <div className='flex flex-col justify-center m-2 text-center'>
-                <p className='text-sm'>Taking into account your and your&apos;s friends free time, we suggest the trip takes place</p>
+                {trip.budget_split ? <p className='text-sm'>Budget, splitted</p> : <p className='text-sm'>Budget, total</p>}
+                <p className='flex justify-center text-semibold text-lg text-semibold'>{trip.budget} €</p>
+            </div>
+            <div className='flex flex-col justify-center m-2 text-center'>
+                <p className='text-sm'>Taking into account your and your&apos;s friends free time, we suggest the trip takes place: </p>
                 <div className="flex flex-col justify-center h-1/2 mt-4">
                     <Calendar
                         mode="multiple"

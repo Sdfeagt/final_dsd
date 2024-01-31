@@ -14,6 +14,8 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from './ui/form'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from './ui/command'
 import { cn } from '@/lib/utils'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
 
 const FormSchemaName = z.object({
     tripname: z.string().min(4, {
@@ -22,7 +24,7 @@ const FormSchemaName = z.object({
 })
 
 const FormSchemaBudget = z.object({
-    budget: z.number().min(1, {
+    budget: z.coerce.number().min(1, {
         message: "Too low budget"
     }).max(5000, {
         message: "Too high budget"
@@ -51,7 +53,7 @@ const ManageTrip: React.FC<ManageTripProps> = ({ trip, days, destinations }) => 
     const [tripDays, setTripDays] = useState<Date[] | undefined>(days.map(day => day.day));
 
 
-
+    const router = useRouter()
     const popoverRef = useRef<HTMLDivElement>(null);
 
 
@@ -79,9 +81,15 @@ const ManageTrip: React.FC<ManageTripProps> = ({ trip, days, destinations }) => 
         formName.reset();
     }
 
-    const handlechanges = () => [
-
-    ]
+    const handlechanges = async () => {
+        console.log(tripName);
+        try {
+            await axios.patch(`/api/trips/${trip.id}`, { tripName, destVal, budget, splitString, tripDays })
+            router.push(`/${trip.id}`)
+        } catch (error) {
+            console.log("Error: " + error);
+        }
+    }
 
 
     return (
@@ -172,7 +180,7 @@ const ManageTrip: React.FC<ManageTripProps> = ({ trip, days, destinations }) => 
                                             render={({ field }) => (
                                                 <FormItem>
                                                     <FormControl>
-                                                        <Input {...formBudget.register('budget')} placeholder="" className='bg-figmaDark text-lg border-0' {...field} />
+                                                        <Input {...formBudget.register('budget')} type='number' className='bg-figmaDark text-lg border-0' {...field} />
                                                     </FormControl>
                                                     <FormMessage className='text-red-500' />
                                                 </FormItem>
