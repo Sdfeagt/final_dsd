@@ -16,14 +16,14 @@ export async function PATCH(req: Request, {params}: {params: {tripID: string}}) 
             ownerId: userId,
             id: params.tripID
         }})
-    
+
         if(!tripbyownerID){
             return new NextResponse("Unauthorized", { status: 403 });
         }
     
-        const { emails} = await req.json();
+        const { full_emails} = await req.json();
     
-        if (!emails) {
+        if (!full_emails) {
             return new NextResponse("User mail is required", { status: 400 });
         }
     
@@ -34,7 +34,7 @@ export async function PATCH(req: Request, {params}: {params: {tripID: string}}) 
             },
             data: {
                 participantsEmail:{
-                    create: emails.map((mail: string) => ({participantEmail: mail}))
+                    create: full_emails.map((mail: string) => ({participantEmail: mail}))
                 }
             }
         })

@@ -9,6 +9,7 @@ import { ParticipantWithUserDetails } from '@/lib/types'
 import { Calendar } from './ui/calendar'
 import { Days, Trip } from '@prisma/client'
 import { User } from '@clerk/nextjs/server'
+import AddFriendsManage from './addFriendsManage'
 
 interface TripOverviewProps {
     trip: Trip | null,
@@ -47,7 +48,7 @@ const TripOverview: React.FC<TripOverviewProps> = ({ trip, user, participants, t
                     <Image className='rounded-full' src={user.imageUrl} alt='userimage' width={48} height={48} />
                 </div>
                 <div className='flex justify-between mt-4'>
-                    <AddFriends />
+                    <AddFriendsManage tripID={trip.id} participants={participants.map((p) => p.email)} />
                     <ManageFriends participants={participants} tripOwnerID={trip.ownerId} />
                 </div>
             </div>

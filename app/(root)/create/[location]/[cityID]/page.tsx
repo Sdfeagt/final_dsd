@@ -8,6 +8,7 @@ import { redirect } from 'next/navigation';
 import BudgetDecision from '@/components/budgetDecision';
 import AddFriends from '@/components/addFriends';
 import Link from 'next/link';
+import useFriendStore from '@/hooks/use-friends';
 
 
 
@@ -37,12 +38,16 @@ const DetailsPage: React.FC<DetailsPageProps> = async ({ params }) => {
 
     const city = findCity
 
+    const HandleReturn = () => {
+        useFriendStore((state) => state.clearFriends())
+    }
+
     return (
         <div>
 
             <div className='flex items-center justify-center my-6'>
                 <div className='absolute left-4 p-2 rounded-full bg-figmaLightDark'>
-                    <Link href={`/create/${params.location}`}>
+                    <Link onClick={() => HandleReturn} href={`/create/${params.location}`}>
                         <ArrowLeft />
                     </Link>
                 </div>

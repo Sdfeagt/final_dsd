@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/form";
 import { cn } from '@/lib/utils';
 import useFriendStore from '@/hooks/use-friends';
+import axios from 'axios';
 
 const FormSchema = z.object({
     email: z.string().email({
@@ -24,8 +25,12 @@ const FormSchema = z.object({
     })
 });
 
+interface AddFriendsManageProps {
+    participants: string[],
+    tripID: string
+}
 
-const AddFriends = () => {
+const AddFriendsManage: React.FC<AddFriendsManageProps> = ({ participants, tripID }) => {
     const [openModal, setOpenModal] = useState(false);
     const [sent, setSent] = useState(false);
     const [fadeEffect, setFadeEffect] = useState(false);
@@ -61,10 +66,13 @@ const AddFriends = () => {
 
 
 
-    function OnSubmit(data: z.infer<typeof FormSchema>) {
-        const added = useFriendStore((state) => state.friends)
-        if (!added.includes(data.email)) {
-            ContinueSubmit(data.email)
+    async function OnSubmit(data: z.infer<typeof FormSchema>) {
+        const full_emails = participants.push(data.email)
+        try {
+            await axios.patch(`/api/trips/${tripID}/updateParticipants`, { full_emails })
+        }
+        catch (error) {
+            console.log("Error: " + error);
         }
     }
 
@@ -124,4 +132,4 @@ const AddFriends = () => {
     );
 };
 
-export default AddFriends;
+export default AddFriendsManage;

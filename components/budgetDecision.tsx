@@ -24,6 +24,7 @@ import { Label } from "./ui/label";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Destination } from "@prisma/client";
+import useFriendStore from "@/hooks/use-friends";
 
 
 
@@ -64,7 +65,9 @@ const BudgetDecision: React.FC<BudgetDecisionProps> = ({ destination, userId, us
         setName(event.target.value)
     }
 
-    const handleCreateTrip = async () => {
+    const HandleCreateTrip = async () => {
+        useFriendStore((state) => state.addFriend(userEmail))
+        const friendEmails = useFriendStore((state) => state.friends)
         if (value === "together") {
             setBudgetSplit(true)
         }
@@ -74,7 +77,7 @@ const BudgetDecision: React.FC<BudgetDecisionProps> = ({ destination, userId, us
         try {
             const ownerId = userId
             const cityName = destination?.name
-            await axios.post("/api/trips", { name, ownerId, cityName, days, budget, budgetSplit, userEmail })
+            await axios.post("/api/trips", { name, ownerId, cityName, days, budget, budgetSplit, userEmail, friendEmails })
             router.refresh()
         } catch (error) {
             console.log("Error: " + error);
@@ -187,7 +190,7 @@ const BudgetDecision: React.FC<BudgetDecisionProps> = ({ destination, userId, us
             </div>
             {(days !== undefined && budget !== 0 && name !== "") ? (
                 <div className='fixed inset-x-0 bottom-12 flex justify-center'>
-                    <Link onClick={handleCreateTrip} href={`/`} className='bg-figmaGreen text-white text-lg rounded-full px-14 py-4'>Complete</Link>
+                    <Link onClick={HandleCreateTrip} href={`/`} className='bg-figmaGreen text-white text-lg rounded-full px-14 py-4'>Complete</Link>
                 </div>
             ) :
                 <div></div>}
