@@ -34,10 +34,6 @@ const ManageFriends: React.FC<ManageFriendsProps> = ({ participants, tripOwnerID
     }, [openModal])
 
 
-
-
-    console.log(tripOwnerID);
-    console.log(participants[0].id);
     return (
         <Popover open={openModal}>
             <PopoverTrigger asChild>
@@ -52,7 +48,6 @@ const ManageFriends: React.FC<ManageFriendsProps> = ({ participants, tripOwnerID
                         <p>{p.firstname}</p>
                         <div className='flex'>Confirmed: <div className='flex pl-2'>{(p.confirmed === true) ? <Check color='#24B24C' /> : <X color='#FF0000' />}</div></div>
                         {(p.userID !== tripOwnerID) ? <Trash2 /> : <div></div>}
-
                     </div>
                 ))}
             </PopoverContent>

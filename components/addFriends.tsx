@@ -16,6 +16,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { cn } from '@/lib/utils';
+import axios from 'axios';
 
 const FormSchema = z.object({
     email: z.string().email({
@@ -23,10 +24,12 @@ const FormSchema = z.object({
     })
 });
 
+
 const AddFriends = () => {
     const [openModal, setOpenModal] = useState(false);
     const [sent, setSent] = useState(false);
     const [fadeEffect, setFadeEffect] = useState(false);
+    const [emails, setEmails] = useState()
     const popoverRef = useRef<HTMLDivElement>(null);
 
     function handleOutsideClick(event: any) {
@@ -57,17 +60,17 @@ const AddFriends = () => {
         },
     });
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {
+    async function onSubmit(data: z.infer<typeof FormSchema>) {
         setOpenModal(false);
         setSent(true);
-        setFadeEffect(true); // Start the fade-in effect
+        setFadeEffect(true);
         form.reset();
 
         setTimeout(() => {
-            setFadeEffect(false); // Start the fade-out effect
+            setFadeEffect(false);
             setTimeout(() => {
                 setSent(false);
-            }, 500); // Additional timeout for fade-out duration
+            }, 500);
         }, 2000);
     }
 
