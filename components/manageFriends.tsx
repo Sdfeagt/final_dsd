@@ -5,6 +5,17 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Check, Trash2, X } from 'lucide-react';
 import Image from 'next/image';
 import { ParticipantWithUserDetails } from '@/lib/types';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 interface ManageFriendsProps {
     participants: ParticipantWithUserDetails[],
@@ -33,6 +44,15 @@ const ManageFriends: React.FC<ManageFriendsProps> = ({ participants, tripOwnerID
         };
     }, [openModal])
 
+    const removeParticipant = async (email: string) => {
+        try {
+
+        }
+        catch (e) {
+            console.log("Error: " + e);
+        }
+    }
+
 
     return (
         <Popover open={openModal}>
@@ -47,7 +67,24 @@ const ManageFriends: React.FC<ManageFriendsProps> = ({ participants, tripOwnerID
                         <Image className='rounded-full' src={p.imageUrl} alt='userimage' width={48} height={48} />
                         <p>{p.firstname}</p>
                         <div className='flex'>Confirmed: <div className='flex pl-2'>{(p.confirmed === true) ? <Check color='#24B24C' /> : <X color='#FF0000' />}</div></div>
-                        {(p.userID !== tripOwnerID) ? <Trash2 /> : <div></div>}
+                        {(p.userID !== tripOwnerID) ?
+                            <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                    <Trash2 />
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            This action cannot be undone.
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                        <AlertDialogAction onClick={() => removeParticipant(p.email)}>Continue</AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog> : <div></div>}
                     </div>
                 ))}
             </PopoverContent>

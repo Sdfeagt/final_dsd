@@ -1,14 +1,11 @@
 import React from 'react'
 import prismadb from '@/lib/prismadb'
 import Image from 'next/image'
-
-import { ArrowLeft } from 'lucide-react'
 import { auth, clerkClient } from "@clerk/nextjs";
 import { redirect } from 'next/navigation';
 import BudgetDecision from '@/components/budgetDecision';
 import AddFriends from '@/components/addFriends';
-import Link from 'next/link';
-import useFriendStore from '@/hooks/use-friends';
+import ButtonBack from '@/components/buttonBack';
 
 
 
@@ -38,18 +35,12 @@ const DetailsPage: React.FC<DetailsPageProps> = async ({ params }) => {
 
     const city = findCity
 
-    const HandleReturn = () => {
-        useFriendStore((state) => state.clearFriends())
-    }
-
     return (
         <div>
 
             <div className='flex items-center justify-center my-6'>
                 <div className='absolute left-4 p-2 rounded-full bg-figmaLightDark'>
-                    <Link onClick={() => HandleReturn} href={`/create/${params.location}`}>
-                        <ArrowLeft />
-                    </Link>
+                    <ButtonBack location={params.location} />
                 </div>
                 <div className='text-lg justify-center'>
                     Create a new trip

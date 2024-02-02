@@ -50,6 +50,8 @@ const BudgetDecision: React.FC<BudgetDecisionProps> = ({ destination, userId, us
     const [budget, setBudget] = useState(1000)
     const [name, setName] = useState("")
     const [budgetSplit, setBudgetSplit] = useState(true)
+    const invited = useFriendStore((state) => state.friends)
+    const addUser = useFriendStore((state) => state.addFriend)
 
     const router = useRouter()
 
@@ -66,8 +68,6 @@ const BudgetDecision: React.FC<BudgetDecisionProps> = ({ destination, userId, us
     }
 
     const HandleCreateTrip = async () => {
-        useFriendStore((state) => state.addFriend(userEmail))
-        const friendEmails = useFriendStore((state) => state.friends)
         if (value === "together") {
             setBudgetSplit(true)
         }
@@ -77,7 +77,7 @@ const BudgetDecision: React.FC<BudgetDecisionProps> = ({ destination, userId, us
         try {
             const ownerId = userId
             const cityName = destination?.name
-            await axios.post("/api/trips", { name, ownerId, cityName, days, budget, budgetSplit, userEmail, friendEmails })
+            await axios.post("/api/trips", { name, ownerId, cityName, days, budget, budgetSplit, userEmail, invited })
             router.refresh()
         } catch (error) {
             console.log("Error: " + error);

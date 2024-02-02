@@ -1,11 +1,13 @@
 "use client"
 import { Trip } from '@prisma/client'
 import { MoreVertical } from 'lucide-react'
-import React from 'react'
+import React, { useState } from 'react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu'
 import Link from 'next/link'
 import axios from 'axios'
 import { useRouter } from 'next/navigation';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog'
+import { Button } from './ui/button'
 
 
 interface TripsListProps {
@@ -14,10 +16,12 @@ interface TripsListProps {
 
 const TripElem: React.FC<TripsListProps> = ({ trip }) => {
     const router = useRouter()
+    const [modal, setModal] = useState(false)
 
     const handleDelete = async () => {
         await axios.delete(`/api/trips/${trip.id}`)
         router.refresh()
+        setModal(!modal)
 
     }
     return (
@@ -26,13 +30,30 @@ const TripElem: React.FC<TripsListProps> = ({ trip }) => {
                 <p>{trip.name}</p>
                 <p>Trip to {trip.destination}</p>
             </div>
-            <DropdownMenu>
+            <DropdownMenu open={modal} onOpenChange={() => setModal(!modal)}>
                 <DropdownMenuTrigger>
                     <MoreVertical className='m-2' />
                 </DropdownMenuTrigger>
-                <DropdownMenuContent>
+                <DropdownMenuContent onClick={() => setModal(true)}>
                     <DropdownMenuItem><Link href={`/${trip.id}`}>Show</Link></DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => handleDelete()}><p>Delete</p></DropdownMenuItem>
+                    <DropdownMenuItem>
+                        <AlertDialog>
+                            <AlertDialogTrigger>
+                                <p>Delete</p>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        This action cannot be undone.
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                    <AlertDialogAction onClick={() => handleDelete()}><Button className='w-full' variant='destructive'>Continue</Button></AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog></DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
         </div>

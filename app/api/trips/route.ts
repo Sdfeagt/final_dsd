@@ -5,7 +5,7 @@ import prismadb from "@/lib/prismadb";
 export async function POST(req: Request) {
     try {
         const { userId } = auth();
-        const { name, ownerId, cityName, days, budget, budgetSplit, userEmail, friendEmails} = await req.json();
+        const { name, ownerId, cityName, days, budget, budgetSplit, userEmail, invited} = await req.json();
 
         if (!userId) {
             return new NextResponse("Unauthenticated", { status: 403 });
@@ -31,7 +31,13 @@ export async function POST(req: Request) {
         if (!userEmail) {
             return new NextResponse("Owner email is required", { status: 400 });
         }
-        const combined: string[] = friendEmails.push(userEmail)
+
+        let combined: string[] = []
+        combined.push(userEmail)
+        combined = combined.concat(invited)
+
+        console.log("Combined: " + combined);
+
         const trip = await prismadb.trip.create({
                 data:{
                     name,
@@ -58,6 +64,15 @@ export async function POST(req: Request) {
                 budget: Array.isArray(budget) ? budget[0] : parseInt(budget, 10),
                 email: userEmail
             }
+        })
+
+        await prismadb.individualTripData.createMany({
+            data: invited.map((email: string) => ({
+                tripId: trip.id,
+                confirmed: false,
+                email: email,
+                budget: 0,
+            }))
         })
         return NextResponse.json({ message: 'Trip created' });
     } catch (error) {

@@ -41,17 +41,18 @@ const TripOverview: React.FC<TripOverviewProps> = ({ trip, user, participants, t
             <div className='relative flex justify-center'>
                 <Image className="opacity-75 rounded-xl" alt="pic" src={`/${trip?.destination}.png`} width={200} height={100} />
             </div>
+            {user.id === trip.ownerId ?
+                <div className='bg-figmaDark rounded-xl m-2'>
+                    <div className='flex justify-between mx-4 pt-2 items-center'>
+                        <p>Add more participants!</p>
+                        <Image className='rounded-full' src={user.imageUrl} alt='userimage' width={48} height={48} />
+                    </div>
+                    <div className='flex justify-between mt-4'>
+                        <AddFriendsManage tripID={trip.id} participants={participants.map((p) => p.email)} />
+                        <ManageFriends participants={participants} tripOwnerID={trip.ownerId} />
+                    </div>
+                </div> : <div></div>}
 
-            <div className='bg-figmaDark rounded-xl m-2'>
-                <div className='flex justify-between mx-4 pt-2 items-center'>
-                    <p>Add more participants!</p>
-                    <Image className='rounded-full' src={user.imageUrl} alt='userimage' width={48} height={48} />
-                </div>
-                <div className='flex justify-between mt-4'>
-                    <AddFriendsManage tripID={trip.id} participants={participants.map((p) => p.email)} />
-                    <ManageFriends participants={participants} tripOwnerID={trip.ownerId} />
-                </div>
-            </div>
             <div className='flex flex-col justify-center m-2 text-center'>
                 <p className='text-sm'>Based on your preferences, we believe you&apos;ll like</p>
                 <p className='flex justify-center text-semibold text-lg text-semibold'>Test hotel name</p>

@@ -16,7 +16,6 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { cn } from '@/lib/utils';
-import useFriendStore from '@/hooks/use-friends';
 import axios from 'axios';
 
 const FormSchema = z.object({
@@ -67,29 +66,25 @@ const AddFriendsManage: React.FC<AddFriendsManageProps> = ({ participants, tripI
 
 
     async function OnSubmit(data: z.infer<typeof FormSchema>) {
-        const full_emails = participants.push(data.email)
+        let full_emails = participants
+        full_emails.push(data.email)
         try {
             await axios.patch(`/api/trips/${tripID}/updateParticipants`, { full_emails })
+            setOpenModal(false);
+            setSent(true);
+            setFadeEffect(true);
+            form.reset();
+
+            setTimeout(() => {
+                setFadeEffect(false);
+                setTimeout(() => {
+                    setSent(false);
+                }, 500);
+            }, 2000);
         }
         catch (error) {
             console.log("Error: " + error);
         }
-    }
-
-    async function ContinueSubmit(email: string) {
-        useFriendStore((state) => state.addFriend(email))
-        setOpenModal(false);
-        setSent(true);
-        setFadeEffect(true);
-        form.reset();
-
-        setTimeout(() => {
-            setFadeEffect(false);
-            setTimeout(() => {
-                setSent(false);
-            }, 500);
-        }, 2000);
-
     }
 
     return (

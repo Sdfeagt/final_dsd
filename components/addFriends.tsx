@@ -30,6 +30,9 @@ const AddFriends = () => {
     const [sent, setSent] = useState(false);
     const [fadeEffect, setFadeEffect] = useState(false);
     const popoverRef = useRef<HTMLDivElement>(null);
+    const addFriend = useFriendStore((state) => state.addFriend)
+    const friends = useFriendStore((state) => state.friends); // Access friends list from store at the top level
+
 
     function handleOutsideClick(event: any) {
         if (popoverRef.current && !popoverRef.current.contains(event.target)) {
@@ -62,14 +65,13 @@ const AddFriends = () => {
 
 
     function OnSubmit(data: z.infer<typeof FormSchema>) {
-        const added = useFriendStore((state) => state.friends)
-        if (!added.includes(data.email)) {
-            ContinueSubmit(data.email)
+        if (!friends.includes(data.email)) {
+            continueSubmit(data.email);
         }
     }
 
-    async function ContinueSubmit(email: string) {
-        useFriendStore((state) => state.addFriend(email))
+    async function continueSubmit(email: string) {
+        addFriend(email)
         setOpenModal(false);
         setSent(true);
         setFadeEffect(true);

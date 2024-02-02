@@ -15,15 +15,20 @@ export default async function Home() {
     }
 
     const user = await clerkClient.users.getUser(userId);
+
     const trips = await prismadb.trip.findMany({
         where: {
             participantsEmail: {
                 some: {
                     participantEmail: user.emailAddresses[0].emailAddress
                 }
-            }
+            },
+        },
+        include: {
+            participantsEmail: true
         }
     });
+    // console.log(trips.map((p) => p.participantsEmail));
     return (
         <div className="flex flex-col bg-black h-screen">
             <div className="mx-4 my-6">
