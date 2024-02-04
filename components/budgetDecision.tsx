@@ -51,7 +51,6 @@ const BudgetDecision: React.FC<BudgetDecisionProps> = ({ destination, userId, us
     const [name, setName] = useState("")
     const [budgetSplit, setBudgetSplit] = useState(true)
     const invited = useFriendStore((state) => state.friends)
-    const addUser = useFriendStore((state) => state.addFriend)
 
     const router = useRouter()
 
@@ -171,21 +170,16 @@ const BudgetDecision: React.FC<BudgetDecisionProps> = ({ destination, userId, us
                             <p className="text-lg">
                                 Add preferred days
                             </p>
-                            <div className="bg-figmaDark p-2 rounded-full">
-                                <MoveRight />
-                            </div>
                         </div>
                     </PopoverTrigger>
-                    <PopoverContent className="w-80">
-                        <div className="flex justify-center h-1/2">
-                            <Calendar
-                                mode="multiple"
-                                selected={days}
-                                onSelect={setDays}
-                                className="rounded-md border flex justify-center"
-                            />
-                        </div>
-                    </PopoverContent>
+                    <div className="flex justify-center h-1/2">
+                        <Calendar
+                            mode="multiple"
+                            selected={days}
+                            onSelect={setDays}
+                            className="rounded-md border flex justify-center"
+                        />
+                    </div>
                 </Popover>
             </div>
             {(days !== undefined && budget !== 0 && name !== "") ? (

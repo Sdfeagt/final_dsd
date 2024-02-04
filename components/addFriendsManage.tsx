@@ -66,10 +66,10 @@ const AddFriendsManage: React.FC<AddFriendsManageProps> = ({ participants, tripI
 
 
     async function OnSubmit(data: z.infer<typeof FormSchema>) {
-        let full_emails = participants
+        let full_emails = []
         full_emails.push(data.email)
         try {
-            await axios.patch(`/api/trips/${tripID}/updateParticipants`, { full_emails })
+            await axios.patch(`/api/trips/${tripID}/updateParticipants`, { full_emails, })
             setOpenModal(false);
             setSent(true);
             setFadeEffect(true);

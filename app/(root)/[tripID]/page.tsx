@@ -5,6 +5,7 @@ import React, { use } from 'react'
 import { redirect } from 'next/navigation';
 import { User } from '@clerk/nextjs/server'
 import { Days, IndividualTripData } from '@prisma/client';
+import AddDetails from '@/components/addDetails';
 
 
 interface TripPageProps {
@@ -51,6 +52,12 @@ const TripPage: React.FC<TripPageProps> = async ({ params }) => {
         }
     })
 
+    const userParticipant = await prismadb.individualTripData.findFirst({
+        where: {
+            email: user.emailAddresses[0].emailAddress
+        }
+    })
+
     const users: User[] = await clerkClient.users.getUserList({ emailAddress: participants.map(p => p.email) })
 
     const participantsWithUserDetails: ParticipantWithUserDetails[] = participants.map(participant => {
@@ -64,10 +71,14 @@ const TripPage: React.FC<TripPageProps> = async ({ params }) => {
         };
     });
 
-
     return (
         <div>
-            <TripOverview trip={trip} user={user} participants={participantsWithUserDetails} trip_days={trip.days} />
+            {userParticipant?.confirmed ? <TripOverview trip={trip} participants={participantsWithUserDetails} trip_days={trip.days} userId={user.id} userImageURL={user.imageUrl} userMail={user.emailAddresses[0].emailAddress} />
+
+                :
+                <AddDetails trip={trip} trip_days={trip.days} userEmail={user.emailAddresses[0].emailAddress} />
+            }
+
 
         </div>
     )

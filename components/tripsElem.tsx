@@ -11,10 +11,11 @@ import { Button } from './ui/button'
 
 
 interface TripsListProps {
-    trip: Trip
+    trip: Trip,
+    userId: string
 }
 
-const TripElem: React.FC<TripsListProps> = ({ trip }) => {
+const TripElem: React.FC<TripsListProps> = ({ trip, userId }) => {
     const router = useRouter()
     const [modal, setModal] = useState(false)
 
@@ -25,37 +26,53 @@ const TripElem: React.FC<TripsListProps> = ({ trip }) => {
 
     }
     return (
-        <div className='flex items-center justify-between border-2 border-white rounded-lg bg-figmaDark m-4'>
-            <div className='m-2'>
-                <p>{trip.name}</p>
-                <p>Trip to {trip.destination}</p>
-            </div>
-            <DropdownMenu open={modal} onOpenChange={() => setModal(!modal)}>
-                <DropdownMenuTrigger>
-                    <MoreVertical className='m-2' />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent onClick={() => setModal(true)}>
-                    <DropdownMenuItem><Link href={`/${trip.id}`}>Show</Link></DropdownMenuItem>
-                    <DropdownMenuItem>
-                        <AlertDialog>
-                            <AlertDialogTrigger>
-                                <p>Delete</p>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                                <AlertDialogHeader>
-                                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                        This action cannot be undone.
-                                    </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                    <AlertDialogAction onClick={() => handleDelete()}><Button className='w-full' variant='destructive'>Continue</Button></AlertDialogAction>
-                                </AlertDialogFooter>
-                            </AlertDialogContent>
-                        </AlertDialog></DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
+        <div>
+            {userId === trip.ownerId ?
+                <div className='flex items-center justify-between border-2 border-white rounded-lg bg-figmaDark m-4'>
+                    <div className='m-2'>
+                        <p>{trip.name}</p>
+                        <p>Trip to {trip.destination}</p>
+                    </div>
+                    <DropdownMenu open={modal} onOpenChange={() => setModal(!modal)}>
+                        <DropdownMenuTrigger>
+                            <MoreVertical className='m-2' />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent onClick={() => setModal(true)}>
+                            <DropdownMenuItem><Link href={`/${trip.id}`}>Show</Link></DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <AlertDialog>
+                                    <AlertDialogTrigger>
+                                        <p>Delete</p>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogContent>
+                                        <AlertDialogHeader>
+                                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                            <AlertDialogDescription>
+                                                This action cannot be undone.
+                                            </AlertDialogDescription>
+                                        </AlertDialogHeader>
+                                        <AlertDialogFooter>
+                                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                            <AlertDialogAction onClick={() => handleDelete()}><Button className='w-full' variant='destructive'>Continue</Button></AlertDialogAction>
+                                        </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                </AlertDialog></DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
+                :
+                <div className='flex items-center justify-between border-2 border-white rounded-lg bg-figmaDark m-4'>
+                    <div className='m-2'>
+                        <p>{trip.name}</p>
+                        <p>Trip to {trip.destination}</p>
+                    </div>
+                    <MoreVertical className='m-2' onClick={() => router.push(`/${trip.id}`)} />
+                </div>
+
+
+
+            }
+
         </div>
     )
 }

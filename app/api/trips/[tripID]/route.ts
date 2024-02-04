@@ -93,6 +93,7 @@ try{
             },
         }
     })
+    //TODO: GPT hotel find again. GPT find optimal days and hotel.
 
     return NextResponse.json(trip)
 

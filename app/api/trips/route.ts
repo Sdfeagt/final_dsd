@@ -74,9 +74,11 @@ export async function POST(req: Request) {
                 budget: 0,
             }))
         })
+            //TODO: GPT hotel find. GPT find optimal days and hotel.
+            
         return NextResponse.json({ message: 'Trip created' });
     } catch (error) {
-        console.log('[TRIP_POST]', error);
+        console.log('[TRIP_PATCH]', error);
         return new NextResponse("Internal error", { status: 500 });
     }
 }

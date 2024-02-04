@@ -28,14 +28,13 @@ export default async function Home() {
             participantsEmail: true
         }
     });
-    // console.log(trips.map((p) => p.participantsEmail));
     return (
         <div className="flex flex-col bg-black h-screen">
             <div className="mx-4 my-6">
                 <MainNav />
             </div>
             {trips.map(trip => (
-                <TripElem trip={trip} key={trip.id} />
+                <TripElem trip={trip} key={trip.id} userId={userId} />
             ))}
             <StartTrip />
             <Toaster />
