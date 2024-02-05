@@ -1,11 +1,11 @@
-import TripOverview from '@/components/tripOverview'
+import TripOverview from '@/app/(root)/[tripID]/components/tripOverview'
 import prismadb from '@/lib/prismadb'
 import { auth, clerkClient } from '@clerk/nextjs'
 import React, { use } from 'react'
 import { redirect } from 'next/navigation';
 import { User } from '@clerk/nextjs/server'
 import { Days, IndividualTripData } from '@prisma/client';
-import AddDetails from '@/components/addDetails';
+import AddDetails from '@/app/(root)/[tripID]/components/addDetails';
 
 
 interface TripPageProps {

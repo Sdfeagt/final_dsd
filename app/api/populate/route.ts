@@ -1,4 +1,3 @@
-// /api/populate/route.ts
 import populateDatabase from "@/lib/populate"
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs";

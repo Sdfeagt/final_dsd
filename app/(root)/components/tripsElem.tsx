@@ -2,13 +2,11 @@
 import { Trip } from '@prisma/client'
 import { MoreVertical } from 'lucide-react'
 import React, { useState } from 'react'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../../../components/ui/dropdown-menu'
 import Link from 'next/link'
 import axios from 'axios'
 import { useRouter } from 'next/navigation';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog'
-import { Button } from './ui/button'
-
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../../../components/ui/alert-dialog'
 
 interface TripsListProps {
     trip: Trip,
@@ -53,7 +51,7 @@ const TripElem: React.FC<TripsListProps> = ({ trip, userId }) => {
                                         </AlertDialogHeader>
                                         <AlertDialogFooter>
                                             <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                            <AlertDialogAction onClick={() => handleDelete()}><Button className='w-full' variant='destructive'>Continue</Button></AlertDialogAction>
+                                            <AlertDialogAction onClick={() => handleDelete()}>Continue</AlertDialogAction>
                                         </AlertDialogFooter>
                                     </AlertDialogContent>
                                 </AlertDialog></DropdownMenuItem>

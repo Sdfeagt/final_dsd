@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/form"
 import DestinationGrid from './destinationGrid'
 import Link from 'next/link'
+import ButtonBack from '@/components/buttonBack'
 
 type Destination = {
     name: string,
@@ -62,11 +63,7 @@ const Destinations: React.FC<DestinationsProps> = ({ destinations, location }) =
     return (
         <div>
             <div className='flex items-center justify-center my-6'>
-                <div className='absolute left-4 p-2 rounded-full bg-figmaLightDark'>
-                    <Link href={`/`}>
-                        <ArrowLeft />
-                    </Link>
-                </div>
+                <ButtonBack location='/' />
                 <div className='flex text-lg justify-center'>
                     Where are you travelling to?
                 </div>

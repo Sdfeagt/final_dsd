@@ -5,8 +5,11 @@ import { useState } from 'react';
 import axios from "axios";
 import Link from 'next/link';
 
-const PreferencesGrid = () => {
-    const [clicked, setClicked] = useState<string[] | []>([])
+interface PreferencesGridProps {
+    currentPreferences: string[]
+}
+const PreferencesGrid: React.FC<PreferencesGridProps> = ({ currentPreferences }) => {
+    const [clicked, setClicked] = useState<string[] | []>(currentPreferences)
 
 
     const handleClick = (icon: string) => {
@@ -25,7 +28,7 @@ const PreferencesGrid = () => {
     const handlePreferenceClick = async () => {
         try {
             const preferences = clicked
-            await axios.post("/api/updatePreferences", preferences)
+            await axios.post("/api/preferences", preferences)
         } catch (error) {
             console.log("Error: " + error);
         }

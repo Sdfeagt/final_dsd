@@ -1,10 +1,9 @@
-import MainNav from "@/components/main_navbar";
-import StartTrip from "@/components/start_Trip";
-import TripElem from "@/components/tripsElem";
+import MainNav from "@/app/(root)/components/mainNavbar";
+import StartTrip from "@/app/(root)/components/startTrip";
+import TripElem from "@/app/(root)/components/tripsElem";
 import prismadb from "@/lib/prismadb";
 import { auth, clerkClient } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
-import { Toaster } from "react-hot-toast";
 
 
 
@@ -37,7 +36,6 @@ export default async function Home() {
                 <TripElem trip={trip} key={trip.id} userId={userId} />
             ))}
             <StartTrip />
-            <Toaster />
         </div>
     )
 }

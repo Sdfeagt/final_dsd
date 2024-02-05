@@ -20,7 +20,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 
-import { Label } from "./ui/label";
+import { Label } from "../../../../../../components/ui/label";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Destination } from "@prisma/client";

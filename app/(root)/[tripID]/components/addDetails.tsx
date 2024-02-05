@@ -3,15 +3,16 @@ import { Days, Trip } from '@prisma/client'
 import { ArrowLeft, CalendarDays, Euro } from 'lucide-react'
 import Link from 'next/link'
 import React, { useState } from 'react'
-import { Slider } from './ui/slider'
+import { Slider } from '../../../../components/ui/slider'
 import { cn } from '@/lib/utils'
-import { Input } from './ui/input'
+import { Input } from '../../../../components/ui/input'
 import Image from 'next/image'
-import { Calendar } from './ui/calendar'
+import { Calendar } from '../../../../components/ui/calendar'
 import axios from 'axios'
 import { User } from '@clerk/nextjs/server'
 import { useRouter } from 'next/navigation'
-import { Button } from './ui/button'
+import { Button } from '../../../../components/ui/button'
+import ButtonBack from '@/components/buttonBack'
 
 
 interface AddDetailsProps {
@@ -55,11 +56,7 @@ const AddDetails: React.FC<AddDetailsProps> = ({ trip, trip_days, userEmail }) =
     return (
         <div>
             <div className='flex items-center justify-center my-6'>
-                <div className='absolute left-4 p-2 rounded-full bg-figmaLightDark'>
-                    <Link href={`/`}>
-                        <ArrowLeft />
-                    </Link>
-                </div>
+                <ButtonBack location='/' />
                 <div className='flex text-lg justify-center'>
                     Add details to {trip?.name} trip
                 </div>

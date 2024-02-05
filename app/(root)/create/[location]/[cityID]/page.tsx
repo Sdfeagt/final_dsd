@@ -3,8 +3,8 @@ import prismadb from '@/lib/prismadb'
 import Image from 'next/image'
 import { auth, clerkClient } from "@clerk/nextjs";
 import { redirect } from 'next/navigation';
-import BudgetDecision from '@/components/budgetDecision';
-import AddFriends from '@/components/addFriends';
+import BudgetDecision from '@/app/(root)/create/[location]/[cityID]/components/budgetDecision';
+import AddFriends from '@/app/(root)/create/[location]/[cityID]/components/addFriends';
 import ButtonBack from '@/components/buttonBack';
 
 

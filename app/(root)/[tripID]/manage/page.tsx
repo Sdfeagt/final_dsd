@@ -1,4 +1,5 @@
-import ManageTrip from "@/components/manageTrip";
+import ManageTrip from "@/app/(root)/[tripID]/manage/components/manageTrip";
+import ButtonBack from "@/components/buttonBack";
 import prismadb from "@/lib/prismadb";
 import { auth, clerkClient } from "@clerk/nextjs";
 import { ArrowLeft } from "lucide-react";
@@ -40,11 +41,7 @@ const ManageTripPage: React.FC<ManageTripPageProps> = async ({ params }) => {
     return (
         <div>
             <div className='flex items-center justify-center my-6'>
-                <div className='absolute left-4 p-2 rounded-full bg-figmaLightDark'>
-                    <Link href={`/${params.tripID}`}>
-                        <ArrowLeft />
-                    </Link>
-                </div>
+                <ButtonBack location={`/${params.tripID}`} />
                 <div className='flex text-lg justify-center'>
                     Manage your trip
                 </div>

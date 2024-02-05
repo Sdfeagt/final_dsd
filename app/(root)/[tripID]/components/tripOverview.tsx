@@ -7,12 +7,12 @@ import Image from 'next/image'
 import ManageFriends from './manageFriends'
 import { redirect, useRouter } from 'next/navigation';
 import { ParticipantWithUserDetails } from '@/lib/types'
-import { Calendar } from './ui/calendar'
+import { Calendar } from '../../../../components/ui/calendar'
 import { Days, Trip } from '@prisma/client'
 import AddFriendsManage from './addFriendsManage'
-import { Button } from './ui/button'
+import { Button } from '../../../../components/ui/button'
 import axios from 'axios'
-import prismadb from '@/lib/prismadb'
+import ButtonBack from '@/components/buttonBack'
 
 interface TripOverviewProps {
     trip: Trip | null,
@@ -41,11 +41,7 @@ const TripOverview: React.FC<TripOverviewProps> = ({ trip, participants, trip_da
     return (
         <div>
             <div className='flex items-center justify-center my-6'>
-                <div className='absolute left-4 p-2 rounded-full bg-figmaLightDark'>
-                    <Link href={`/`}>
-                        <ArrowLeft />
-                    </Link>
-                </div>
+                <ButtonBack location='/' />
                 <div className='flex text-lg justify-center'>
                     Trip to {trip?.destination}
                 </div>

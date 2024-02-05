@@ -1,7 +1,7 @@
 "use client"
 import { Days, Destination, Trip } from '@prisma/client'
 import React, { useEffect, useRef, useState } from 'react'
-import { Calendar } from './ui/calendar'
+import { Calendar } from '../../../../../components/ui/calendar'
 import { Check, Settings } from 'lucide-react'
 
 
@@ -10,9 +10,9 @@ import { Input } from "@/components/ui/input"
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Form, FormControl, FormField, FormItem, FormMessage } from './ui/form'
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from './ui/command'
+import { Form, FormControl, FormField, FormItem, FormMessage } from '../../../../../components/ui/form'
+import { Popover, PopoverContent, PopoverTrigger } from '../../../../../components/ui/popover'
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '../../../../../components/ui/command'
 import { cn } from '@/lib/utils'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'

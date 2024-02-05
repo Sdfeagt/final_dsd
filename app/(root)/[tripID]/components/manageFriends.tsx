@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useRef, useState } from 'react';
-import { Button } from './ui/button';
+import { Button } from '../../../../components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Check, Trash2, X } from 'lucide-react';
 import Image from 'next/image';

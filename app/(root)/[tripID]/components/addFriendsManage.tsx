@@ -1,9 +1,9 @@
 "use client"
 import React, { useEffect, useRef, useState } from 'react';
-import { Button } from './ui/button';
+import { Button } from '../../../../components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Input } from './ui/input';
-import { Separator } from './ui/separator';
+import { Input } from '../../../../components/ui/input';
+import { Separator } from '../../../../components/ui/separator';
 import { Check, Link } from 'lucide-react';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
