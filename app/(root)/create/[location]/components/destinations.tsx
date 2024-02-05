@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { ArrowLeft, MapPin, Search } from 'lucide-react'
+import { MapPin, Search } from 'lucide-react'
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -15,8 +15,7 @@ import {
     FormItem,
 } from "@/components/ui/form"
 import DestinationGrid from './destinationGrid'
-import Link from 'next/link'
-import ButtonBack from '@/components/buttonBack'
+import ButtonBackLink from '@/components/buttonBackLink'
 
 type Destination = {
     name: string,
@@ -63,7 +62,7 @@ const Destinations: React.FC<DestinationsProps> = ({ destinations, location }) =
     return (
         <div>
             <div className='flex items-center justify-center my-6'>
-                <ButtonBack location='/' />
+                <ButtonBackLink location='/' />
                 <div className='flex text-lg justify-center'>
                     Where are you travelling to?
                 </div>

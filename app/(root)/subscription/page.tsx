@@ -1,10 +1,10 @@
-import ButtonBack from '@/components/buttonBack'
+import ButtonBackLink from '@/components/buttonBackLink'
 import React from 'react'
 
 const Subscription = () => {
     return (
         <div>
-            <ButtonBack location='/' />
+            <ButtonBackLink location='/' />
             Subscription
 
         </div>

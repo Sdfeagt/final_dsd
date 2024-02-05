@@ -1,6 +1,5 @@
 "use client"
 
-import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import Image from 'next/image'
@@ -12,7 +11,7 @@ import { Days, Trip } from '@prisma/client'
 import AddFriendsManage from './addFriendsManage'
 import { Button } from '../../../../components/ui/button'
 import axios from 'axios'
-import ButtonBack from '@/components/buttonBack'
+import ButtonBackLink from '@/components/buttonBackLink'
 
 interface TripOverviewProps {
     trip: Trip | null,
@@ -41,7 +40,7 @@ const TripOverview: React.FC<TripOverviewProps> = ({ trip, participants, trip_da
     return (
         <div>
             <div className='flex items-center justify-center my-6'>
-                <ButtonBack location='/' />
+                <ButtonBackLink location='/' />
                 <div className='flex text-lg justify-center'>
                     Trip to {trip?.destination}
                 </div>

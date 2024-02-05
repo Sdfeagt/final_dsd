@@ -1,7 +1,9 @@
 import PreferencesGrid from '@/app/(root)/preferences/components/preferencesgrid';
-import ButtonBack from '@/components/buttonBack';
+import ButtonBackLink from '@/components/buttonBackLink';
 import prismadb from '@/lib/prismadb';
 import { auth } from '@clerk/nextjs';
+import { ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import React from 'react';
 
@@ -20,7 +22,7 @@ const Preferences = async () => {
     return (
         <div className=" my-6">
             <div className='flex items-center justify-center mt-6 mb-10'>
-                <ButtonBack location='/' />
+                <ButtonBackLink location='/' />
                 <div className='flex text-lg justify-center'>
                     Set your preferences!
                 </div>

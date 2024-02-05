@@ -193,7 +193,7 @@ const ManageTrip: React.FC<ManageTripProps> = ({ trip, days, destinations }) => 
                         </Popover>
                     </div>
                 </div>
-                <div className='flex justify-between mx-2 bg-figmaLightDark p-2 rounded-lg'>
+                <div className='flex items-center justify-between mx-2 bg-figmaLightDark p-2 rounded-lg'>
                     <p>Split</p> <div className='flex items-center space-x-4'><p>{splitString ? "Yes" : "No"}</p>
                         <Popover open={openModalSplit} onOpenChange={setOpenModalSplit}>
                             <PopoverTrigger asChild>
