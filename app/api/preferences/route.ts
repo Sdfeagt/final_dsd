@@ -5,7 +5,7 @@ import prismadb from "@/lib/prismadb";
 export async function POST(req: Request) {
     try {
         const { userId } = auth();
-        const preferences = await req.json();
+        const {preferences, email} = await req.json();
 
         if (!userId) {
             return new NextResponse("Unauthenticated", { status: 403 });
@@ -18,13 +18,13 @@ export async function POST(req: Request) {
             // Delete existing preferences for the user
             await prismadb.userPreference.deleteMany({
                 where: { 
-                    userId: userId
+                    email: email
                 },
             });
 
             // Add new preferences
             await prismadb.userPreference.createMany({
-                data: preferences.map((pref: string) => ({ name: pref, userId: userId})),
+                data: preferences.map((pref: string) => ({ name: pref, email: email})),
             });
 
         return NextResponse.json({ message: 'Preferences updated successfully' });

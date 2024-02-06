@@ -6,9 +6,10 @@ import axios from "axios";
 import Link from 'next/link';
 
 interface PreferencesGridProps {
-    currentPreferences: string[]
+    currentPreferences: string[],
+    email: string
 }
-const PreferencesGrid: React.FC<PreferencesGridProps> = ({ currentPreferences }) => {
+const PreferencesGrid: React.FC<PreferencesGridProps> = ({ currentPreferences, email }) => {
     const [clicked, setClicked] = useState<string[] | []>(currentPreferences)
 
 
@@ -28,7 +29,7 @@ const PreferencesGrid: React.FC<PreferencesGridProps> = ({ currentPreferences })
     const handlePreferenceClick = async () => {
         try {
             const preferences = clicked
-            await axios.post("/api/preferences", preferences)
+            await axios.post("/api/preferences", { preferences, email })
         } catch (error) {
             console.log("Error: " + error);
         }
