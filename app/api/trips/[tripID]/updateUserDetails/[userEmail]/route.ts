@@ -1,3 +1,4 @@
+import AIGPT from "@/lib/AIGPT";
 import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
@@ -65,7 +66,6 @@ export async function DELETE(req: Request, {params}: {params: {tripID: string, u
         if (!params.userEmail) {
             return new NextResponse("User mail is required", { status: 400 });
         }
-        console.log("Check 1");
 
         const userTripDetails = await prismadb.individualTripData.findFirst({where:{
             tripId: params.tripID,
@@ -74,9 +74,6 @@ export async function DELETE(req: Request, {params}: {params: {tripID: string, u
         if(!userTripDetails){
             return new NextResponse("Unauthorized", { status: 403 });
         }       
-        console.log("Check 2");
-         console.log("User trip data: " + userTripDetails.id);
-
         const updated = await prismadb.individualTripData.delete({
             where:{
                 id: userTripDetails.id
@@ -93,7 +90,6 @@ export async function DELETE(req: Request, {params}: {params: {tripID: string, u
         if(!tripUpdate){
             return new NextResponse("Trip not found!", { status: 400 });
         }
-        console.log("Check 3");
         const newEmails = tripUpdate.participantsEmail.filter((mail)=> mail.participantEmail !== params.userEmail).map((email)=>email.participantEmail)
         const updatedTrip = await prismadb.trip.update({
             where: {
@@ -104,9 +100,6 @@ export async function DELETE(req: Request, {params}: {params: {tripID: string, u
                     create: newEmails.map((email: string) => ({participantEmail: email}))
                 }
             },
-            include:{
-                participantsEmail: true
-            }
         })
         const emailOBJ = await prismadb.participantsEmail.findFirst({
             where:{
@@ -117,14 +110,25 @@ export async function DELETE(req: Request, {params}: {params: {tripID: string, u
         if(!emailOBJ){
             return new NextResponse("Email not found!", { status: 400 });
         }
-        console.log("Check 4");
         await prismadb.participantsEmail.delete({
             where:{
                 id: emailOBJ.id
             }
         })
-        console.log("New list of emails: " + updatedTrip.participantsEmail.map((e)=>e.participantEmail));
-    //TODO: GPT hotel find again. GPT find optimal days and hotel. Then update the trip
+
+        const participantsEmails = await prismadb.trip.findFirst({
+            where:{
+                id: params.tripID,
+            },
+            include: {
+                participantsEmail:true
+            },
+        })
+
+        let emails = participantsEmails?.participantsEmail.map((p)=> p.participantEmail) ?? []
+
+        await AIGPT(updatedTrip, emails)
+
         return NextResponse.json(updated)
     
     

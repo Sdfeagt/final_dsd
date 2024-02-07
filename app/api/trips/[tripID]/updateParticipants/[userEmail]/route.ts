@@ -1,4 +1,5 @@
 
+import AIGPT from "@/lib/AIGPT";
 import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
@@ -39,7 +40,7 @@ export async function DELETE(req: Request, {params}: {params: {tripID: string, u
                 participantsEmail:{
                     create: newList.map((mail: string) => ({participantEmail: mail}))
                 }
-            }
+            },
         })
         
         const individualTripData = await prismadb.individualTripData.findFirst({
@@ -56,7 +57,19 @@ export async function DELETE(req: Request, {params}: {params: {tripID: string, u
                 personal_days: true
             }
         })
-            //TODO: GPT hotel find again. GPT find optimal days and hotel.
+            const participantsEmails = await prismadb.trip.findFirst({
+                where:{
+                    ownerId: userId,
+                    id: params.tripID,
+                },
+                include: {
+                    participantsEmail:true
+                },
+            })
+
+            let emails = participantsEmails?.participantsEmail.map((p)=> p.participantEmail) ?? []
+
+            await AIGPT(trip, emails)
     
         return NextResponse.json(trip)
     

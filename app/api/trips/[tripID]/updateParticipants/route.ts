@@ -46,6 +46,8 @@ export async function PATCH(req: Request, {params}: {params: {tripID: string}}) 
                 budget: 0,
             }))
         })
+
+        
     
         return NextResponse.json(trip)
     

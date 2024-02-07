@@ -1,6 +1,7 @@
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import prismadb from "@/lib/prismadb";
+import AIGPT from "@/lib/AIGPT";
 
 export async function POST(req: Request) {
     try {
@@ -74,7 +75,17 @@ export async function POST(req: Request) {
                 budget: 0,
             }))
         })
-            //TODO: GPT hotel find. GPT find optimal days and hotel.
+        const participantsEmails = await prismadb.trip.findFirst({
+            where:{
+                id: trip.id,
+            },
+            include: {
+                participantsEmail:true
+            },
+        })
+        let emails = participantsEmails?.participantsEmail.map((p)=> p.participantEmail) ?? []
+
+            AIGPT(trip, emails)
             
         return NextResponse.json({ message: 'Trip created' });
     } catch (error) {

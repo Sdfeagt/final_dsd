@@ -1,3 +1,4 @@
+import AIGPT from "@/lib/AIGPT";
 import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
@@ -93,7 +94,18 @@ try{
             },
         }
     })
-    //TODO: GPT hotel find again. GPT find optimal days and hotel.
+    const participantsEmails = await prismadb.trip.findFirst({
+        where:{
+            id: params.tripID,
+        },
+        include: {
+            participantsEmail:true
+        },
+    })
+
+    let emails = participantsEmails?.participantsEmail.map((p)=> p.participantEmail) ?? []
+
+    await AIGPT(trip, emails)
 
     return NextResponse.json(trip)
 
