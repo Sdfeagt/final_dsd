@@ -40,11 +40,21 @@ export default async function AIGPT(trip: Trip, emails: string[]) {
 
     console.log(prompt);
 
-    // const chatCompletion = await openai.chat.completions.create({
-    //     messages: [{role: "system", content: prompt}],
-    //     model: 'gpt-4-turbo',
-    // });
+    const chatCompletion = await openai.chat.completions.create({
+        messages: [{role: "system", content: prompt}],
+        model: 'gpt-4-turbo-preview',
+    });
 
-    // return chatCompletion.choices[0].message
+    console.log("Anwser: " + chatCompletion.choices[0].message.content);
+
+    await prismadb.trip.update({
+        where:{
+            id: trip.id
+        },
+        data:{
+            hotelName: chatCompletion.choices[0].message.content ?? ""
+        }
+    })
+
 }
 

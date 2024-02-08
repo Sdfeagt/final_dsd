@@ -82,7 +82,6 @@ const ManageTrip: React.FC<ManageTripProps> = ({ trip, days, destinations }) => 
     }
 
     const handlechanges = async () => {
-        console.log(tripName);
         try {
             await axios.patch(`/api/trips/${trip.id}`, { tripName, destVal, budget, splitString, tripDays })
             router.push(`/${trip.id}`)
