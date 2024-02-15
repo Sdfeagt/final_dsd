@@ -54,6 +54,7 @@ const TripPage: React.FC<TripPageProps> = async ({ params }) => {
 
     const userParticipant = await prismadb.individualTripData.findFirst({
         where: {
+            tripId: params.tripID,
             email: user.emailAddresses[0].emailAddress
         }
     })
@@ -70,6 +71,10 @@ const TripPage: React.FC<TripPageProps> = async ({ params }) => {
             userID: user?.id
         };
     });
+
+
+
+
 
     return (
         <div>

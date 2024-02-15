@@ -16,15 +16,19 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 interface ManageFriendsProps {
     participants: ParticipantWithUserDetails[],
     tripOwnerID: string,
+    tripID: string,
 }
 
-const ManageFriends: React.FC<ManageFriendsProps> = ({ participants, tripOwnerID }) => {
+const ManageFriends: React.FC<ManageFriendsProps> = ({ participants, tripOwnerID, tripID }) => {
     const [openModal, setOpenModal] = useState(false);
     const popoverRef = useRef<HTMLDivElement>(null);
+    const router = useRouter()
 
     function handleOutsideClick(event: any) {
         if (popoverRef.current && !popoverRef.current.contains(event.target)) {
@@ -46,7 +50,8 @@ const ManageFriends: React.FC<ManageFriendsProps> = ({ participants, tripOwnerID
 
     const removeParticipant = async (email: string) => {
         try {
-
+            await axios.delete(`/api/trips/${tripID}/updateParticipants/${email}`)
+            router.push(`/${tripID}`)
         }
         catch (e) {
             console.log("Error: " + e);

@@ -60,13 +60,13 @@ const TripOverview: React.FC<TripOverviewProps> = ({ trip, participants, trip_da
                     </div>
                     <div className='flex justify-between mt-4'>
                         <AddFriendsManage tripID={trip.id} participants={participants.map((p) => p.email)} />
-                        <ManageFriends participants={participants} tripOwnerID={trip.ownerId} />
+                        <ManageFriends participants={participants} tripOwnerID={trip.ownerId} tripID={trip.id} />
                     </div>
                 </div> : <div></div>}
 
             <div className='flex flex-col justify-center m-2 text-center'>
                 <p className='text-sm'>Based on your preferences, we believe you&apos;ll like</p>
-                <p className='flex justify-center text-semibold text-lg text-semibold'>{trip.hotelName.substring(1, trip.hotelName.length - 2)}</p>
+                <p className='flex justify-center text-semibold text-lg text-semibold'>{trip.hotelName}</p>
             </div>
             <div className='flex flex-col justify-center m-2 text-center'>
                 {trip.budget_split ? <p className='text-sm'>Budget, splitted</p> : <p className='text-sm'>Budget, total</p>}

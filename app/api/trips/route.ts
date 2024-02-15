@@ -75,6 +75,7 @@ export async function POST(req: Request) {
                 budget: 0,
             }))
         })
+
         const participantsEmails = await prismadb.trip.findFirst({
             where:{
                 id: trip.id,
