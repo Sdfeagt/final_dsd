@@ -52,7 +52,7 @@ const TripOverview: React.FC<TripOverviewProps> = ({ trip, participants, trip_da
                 {trip?.name}
             </div>
             <div className='relative flex justify-center'>
-                <Image placeholder='empty' priority={true} className="opacity-75 rounded-xl" alt="pic" src={`/rome.png`} width={200} height={100} />
+                <Image placeholder='empty' priority={true} className="opacity-75 rounded-xl" alt="pic" src={`/${trip.destination}.png`} width={200} height={100} />
             </div>
             {userId === trip.ownerId ?
                 <div className='bg-figmaDark rounded-xl m-2'>
