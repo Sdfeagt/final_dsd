@@ -12,6 +12,7 @@ import AddFriendsManage from './addFriendsManage'
 import { Button } from '../../../../components/ui/button'
 import axios from 'axios'
 import ButtonBackLink from '@/components/buttonBackLink'
+import ToShow from "@/public/Rome.png"
 
 
 interface TripOverviewProps {
@@ -52,7 +53,7 @@ const TripOverview: React.FC<TripOverviewProps> = ({ trip, participants, trip_da
                 {trip?.name}
             </div>
             <div className='relative flex justify-center'>
-                <Image placeholder='empty' priority={true} className="opacity-75 rounded-xl" alt="pic" src={`/${trip.destination}.png`} width={200} height={100} />
+                <Image placeholder='empty' priority={true} className="opacity-75 rounded-xl" alt="pic" src={ToShow} width={200} height={100} />
             </div>
             {userId === trip.ownerId ?
                 <div className='bg-figmaDark rounded-xl m-2'>
