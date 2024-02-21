@@ -13,6 +13,7 @@ import { Button } from '../../../../components/ui/button'
 import axios from 'axios'
 import ButtonBackLink from '@/components/buttonBackLink'
 
+
 interface TripOverviewProps {
     trip: Trip | null,
     trip_days: Days[],
@@ -37,6 +38,7 @@ const TripOverview: React.FC<TripOverviewProps> = ({ trip, participants, trip_da
         }
     }
 
+
     return (
         <div>
             <div className='flex items-center justify-center my-6'>
@@ -50,7 +52,7 @@ const TripOverview: React.FC<TripOverviewProps> = ({ trip, participants, trip_da
                 {trip?.name}
             </div>
             <div className='relative flex justify-center'>
-                <Image placeholder='blur' priority={true} className="opacity-75 rounded-xl" alt="pic" src={`/${trip?.destination}.png`} width={200} height={100} />
+                <Image placeholder='empty' priority={true} className="opacity-75 rounded-xl" alt="pic" src={`/${trip?.destination}.png`} width={200} height={100} />
             </div>
             {userId === trip.ownerId ?
                 <div className='bg-figmaDark rounded-xl m-2'>
