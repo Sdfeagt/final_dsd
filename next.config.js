@@ -7,6 +7,7 @@ const nextConfig = {
           hostname: 'img.clerk.com',
         },
       ],
+      disableStaticImages: true,
     },
   }
 
