@@ -49,7 +49,7 @@ const TripOverview: React.FC<TripOverviewProps> = ({ trip, participants, trip_da
             </div>
 
             <div className='flex justify-center'>
-                {trip?.name}
+                {trip.name}
             </div>
             <div className='relative flex justify-center'>
                 <Image placeholder='empty' priority={true} className="opacity-75 rounded-xl" alt="pic" src={`/${trip.destination[0].toUpperCase() + trip.destination.slice(1)}.png`} width={200} height={100} />

@@ -57,12 +57,12 @@ const AddDetails: React.FC<AddDetailsProps> = ({ trip, trip_days, userEmail }) =
             <div className='flex items-center justify-center my-6'>
                 <ButtonBackLink location='/' />
                 <div className='flex text-lg justify-center'>
-                    Add details to {trip?.name} trip
+                    Add details to {trip.name} trip
                 </div>
             </div>
 
             <div className='relative flex justify-center'>
-                <Image className="opacity-75 rounded-xl" alt="pic" src={`/${trip?.destination}.png`} width={200} height={100} />
+                <Image className="opacity-75 rounded-xl" alt="pic" src={`/${trip.destination[0].toUpperCase() + trip.destination.slice(1)}.png`} width={200} height={100} />
             </div>
 
             <div className="flex items-center justify-between mt-4">
