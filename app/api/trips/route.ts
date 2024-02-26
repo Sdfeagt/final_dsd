@@ -37,8 +37,6 @@ export async function POST(req: Request) {
         combined.push(userEmail)
         combined = combined.concat(invited)
 
-        console.log("Combined: " + combined);
-
         const trip = await prismadb.trip.create({
                 data:{
                     name,
@@ -76,21 +74,29 @@ export async function POST(req: Request) {
             }))
         })
 
-        const participantsEmails = await prismadb.trip.findFirst({
-            where:{
-                id: trip.id,
-            },
-            include: {
-                participantsEmail:true
-            },
-        })
-        let emails = participantsEmails?.participantsEmail.map((p)=> p.participantEmail) ?? []
+        // const participantsEmails = await prismadb.trip.findFirst({
+        //     where:{
+        //         id: trip.id,
+        //     },
+        //     include: {
+        //         participantsEmail:true
+        //     },
+        // })
 
-            AIGPT(trip, emails)
+        // let emails = participantsEmails?.participantsEmail.map((p)=> p.participantEmail) ?? []
+        const emailsOBJ = await prismadb.individualTripData.findMany({
+            where:{
+                tripId: trip.id,
+                confirmed: true
+            }
+        })
+        const emails = emailsOBJ.map((email)=> email.email)
+
+        await AIGPT(trip, emails)
             
         return NextResponse.json({ message: 'Trip created' });
     } catch (error) {
-        console.log('[TRIP_PATCH]', error);
+        console.log('[TRIP_POST]', error);
         return new NextResponse("Internal error", { status: 500 });
     }
 }

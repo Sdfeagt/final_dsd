@@ -57,19 +57,15 @@ export async function DELETE(req: Request, {params}: {params: {tripID: string, u
                 personal_days: true
             }
         })
-            const participantsEmails = await prismadb.trip.findFirst({
-                where:{
-                    ownerId: userId,
-                    id: params.tripID,
-                },
-                include: {
-                    participantsEmail:true
-                },
-            })
-
-            let emails = participantsEmails?.participantsEmail.map((p)=> p.participantEmail) ?? []
-
-            await AIGPT(trip, emails)
+        const emailsOBJ = await prismadb.individualTripData.findMany({
+            where:{
+                tripId: params.tripID,
+                confirmed: true
+            }
+        })
+        const emails = emailsOBJ.map((email)=> email.email)
+    
+        await AIGPT(trip, emails)
     
         return NextResponse.json(trip)
     
