@@ -23,9 +23,11 @@ const FormSchema = z.object({
         message: "Please provide a valid email."
     })
 });
+interface AddFriendsProps {
+    userMail: String
+}
 
-
-const AddFriends = () => {
+const AddFriends: React.FC<AddFriendsProps> = ({ userMail }) => {
     const [openModal, setOpenModal] = useState(false);
     const [sent, setSent] = useState(false);
     const [fadeEffect, setFadeEffect] = useState(false);
@@ -65,7 +67,7 @@ const AddFriends = () => {
 
 
     function OnSubmit(data: z.infer<typeof FormSchema>) {
-        if (!friends.includes(data.email)) {
+        if (!friends.includes(data.email) && data.email !== userMail) {
             continueSubmit(data.email);
         }
     }

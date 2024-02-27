@@ -58,7 +58,7 @@ const DetailsPage: React.FC<DetailsPageProps> = async ({ params }) => {
                     <p>Who&apos;s coming?</p>
                     <Image className='rounded-full' src={user.imageUrl} alt='userimage' width={48} height={48} />
                 </div>
-                <AddFriends />
+                <AddFriends userMail={user.emailAddresses[0].emailAddress} />
             </div>
             <BudgetDecision destination={city} userId={userId} userEmail={user.emailAddresses[0].emailAddress} />
 

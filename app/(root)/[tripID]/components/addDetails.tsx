@@ -113,7 +113,7 @@ const AddDetails: React.FC<AddDetailsProps> = ({ trip, trip_days, userEmail }) =
                 <Link onClick={HadnleAddDetails} href={`/`} className='bg-figmaGreen text-white text-lg rounded-full px-14 py-4'>Complete</Link>
             </div>
             <div className=' flex justify-center my-4'>
-                <Button variant="destructive" onClick={HandleDeleteUser} className='bg-figmaGreen text-white text-lg rounded-full px-14 py-4'>Remove trip</Button>
+                <Button variant="destructive" onClick={HandleDeleteUser} className=' text-white text-lg rounded-full px-14 py-4'>Remove trip</Button>
             </div>
         </div>
     )

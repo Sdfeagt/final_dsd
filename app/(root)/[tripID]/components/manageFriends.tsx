@@ -51,7 +51,7 @@ const ManageFriends: React.FC<ManageFriendsProps> = ({ participants, tripOwnerID
     const removeParticipant = async (email: string) => {
         try {
             await axios.delete(`/api/trips/${tripID}/updateParticipants/${email}`)
-            router.push(`/${tripID}`)
+            router.refresh()
         }
         catch (e) {
             console.log("Error: " + e);
