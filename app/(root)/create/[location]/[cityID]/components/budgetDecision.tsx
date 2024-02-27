@@ -41,7 +41,7 @@ const splits = [
 interface BudgetDecisionProps {
     destination: Destination | null,
     userId: string,
-    userEmail: string
+    userEmail: string,
 }
 const BudgetDecision: React.FC<BudgetDecisionProps> = ({ destination, userId, userEmail }) => {
     const [open, setOpen] = useState(false)

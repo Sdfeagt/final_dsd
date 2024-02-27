@@ -48,7 +48,7 @@ export default async function AIGPT(trip: Trip, emails: string[]) {
     
     const prompt = `Find an optimal hotel for a trip to ${trip.destination}. Return only the hotel name, nothing more. There are currently ${confirmed} guests coming, with possibility of ${not_confirmed} joining too.
     Each user has their preferences, include them in the search. RETURN ONLY THE HOTEL NAME LIKE THIS EXAMPLE "Bristol Hotel Berlin". Do it according to the data you have. Your result will be used in the app, so 
-    only retun the hotel name. Do not return the hotel name in brackets, just the name. No brackets
+    only retun the hotel name. Do not return the hotel name in brackets, just the name. No brackets. If you can't provide any hotel name, just make up a name and return only that name!
     :
     ${preferencesText}
     `
